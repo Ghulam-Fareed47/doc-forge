@@ -6,6 +6,6 @@
 import { RouterView } from 'vue-router'
 </script>
 
-<style>
-/* Remove any default styles */
+<style scoped>
+/* Global styles if needed */
 </style>
