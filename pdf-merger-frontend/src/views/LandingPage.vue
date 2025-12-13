@@ -34,7 +34,7 @@
 
           <!-- Call to Action -->
           <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-            <button @click="$router.push('/merge-pdf')"
+            <button @click="scrollToTools"
               class="group inline-flex items-center justify-center whitespace-nowrap rounded-xl px-5 py-3 text-base font-semibold text-white bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden">
               <span class="relative z-10 flex items-center gap-1">
                 <i class="fas fa-bolt"></i>
@@ -68,6 +68,70 @@
       </section>
 
 
+
+
+
+      <!-- Tools Grid Section -->
+      <!-- Tools Grid Section -->
+      <!-- Tools Grid Section -->
+      <section ref="toolsSection" id="tools"
+        class="py-24 bg-gray-50 dark:bg-slate-900 overflow-hidden transition-colors duration-300">
+        <div class="container mx-auto px-4">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Popular Tools</h2>
+            <p class="text-xl text-gray-600 dark:text-slate-400 max-w-3xl mx-auto">
+              Everything you need to manage your PDF files
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
+            <router-link v-for="tool in tools" :key="tool.id" :to="tool.path" class="group relative rounded-2xl transition-all duration-500 hover:shadow-2xl hover:-translate-y-1
+                     bg-white border shadow-sm
+                     dark:bg-transparent dark:border-transparent dark:shadow-none
+                     dark:[background-origin:padding-box,border-box]
+                     dark:[background-clip:padding-box,border-box]
+                     dark:hover:shadow-indigo-500/20" :class="[
+                      `border-${tool.id === 'merge' ? 'blue' : tool.id === 'split' ? 'orange' : tool.id === 'compress' ? 'green' : 'indigo'}-100`,
+                      `dark:before:bg-gradient-to-br dark:before:${tool.from} dark:before:${tool.to}`
+                    ]" :style="{
+                      '--tool-from': `var(--color-${tool.from.replace('from-', '')})`,
+                      '--tool-to': `var(--color-${tool.to.replace('to-', '')})`
+                    }">
+
+              <!-- Dark Mode Gradient Border Trick -->
+              <div
+                class="absolute inset-0 rounded-2xl z-0 hidden dark:block p-[1px] bg-gradient-to-br from-slate-800 to-slate-800 group-hover:from-[color:var(--tw-gradient-from)] group-hover:to-[color:var(--tw-gradient-to)]"
+                :class="[tool.from, tool.to]">
+                <div class="h-full w-full bg-slate-900 rounded-2xl"></div>
+              </div>
+
+              <div class="relative h-full flex flex-col z-10">
+                <div class="px-6 py-8 flex-1">
+                  <div class="w-14 h-14 mb-6 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300
+                              border" :class="[tool.bg, tool.text, tool.border]">
+                    <i :class="tool.icon + ' text-2xl'"></i>
+                  </div>
+
+                  <!-- 'Use Tool' link moved here -->
+                  <div
+                    class="flex items-center font-medium mb-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0"
+                    :class="tool.text">
+                    <span class="text-sm font-semibold tracking-wide">Use Tool</span>
+                    <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                  </div>
+
+                  <div
+                    class="text-xl font-bold text-gray-900 dark:text-slate-200 mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r"
+                    :class="[tool.from, tool.to]">
+                    {{ tool.name }}
+                  </div>
+                  <p class="text-sm text-gray-600 dark:text-slate-500 leading-relaxed">{{ tool.description }}</p>
+                </div>
+              </div>
+            </router-link>
+          </div>
+        </div>
+      </section>
 
       <!-- Features Section -->
       <section ref="featuresSection" id="features" class="bg-white dark:bg-gray-900 py-20">
@@ -302,13 +366,7 @@ import FooterSection from '../components/FooterSection.vue'
 import CardComponent from '../components/CardComponent.vue'
 const activeBlog = ref(1)
 const featuresSection = ref(null)
-
-const stats = [
-  { value: '10M+', label: 'PDFs Merged' },
-  { value: '500K+', label: 'Happy Users' },
-  { value: '99.9%', label: 'Success Rate' },
-  { value: '24/7', label: 'Uptime' }
-]
+const toolsSection = ref(null)
 
 const features = [
   { icon: 'fas fa-bolt', title: 'Lightning Fast', description: 'Merge your PDFs in seconds with our optimized processing engine. No waiting, no delays.' },
@@ -319,8 +377,99 @@ const features = [
   { icon: 'fas fa-headset', title: '24/7 Support', description: 'Get help whenever you need it with our responsive customer support team.' }
 ]
 
+const tools = [
+  {
+    id: 'merge',
+    name: 'Merge PDF',
+    icon: 'fas fa-file-pdf',
+    path: '/merge-pdf',
+    description: 'Combine multiple PDFs into one unified document.',
+    from: 'from-blue-500',
+    to: 'to-cyan-500',
+    text: 'text-blue-600 dark:text-blue-400',
+    bg: 'bg-blue-50 dark:bg-blue-900/20',
+    border: 'border-blue-100 dark:border-blue-800'
+  },
+  {
+    id: 'split',
+    name: 'Split PDF',
+    icon: 'fas fa-cut',
+    path: '/split-pdf',
+    description: 'Separate a PDF file into individual pages or ranges.',
+    from: 'from-orange-500',
+    to: 'to-amber-500',
+    text: 'text-orange-600 dark:text-orange-400',
+    bg: 'bg-orange-50 dark:bg-orange-900/20',
+    border: 'border-orange-100 dark:border-orange-800'
+  },
+  {
+    id: 'compress',
+    name: 'Compress PDF',
+    icon: 'fas fa-compress',
+    path: '/compress-pdf',
+    description: 'Reduce file size while maintaining high quality.',
+    from: 'from-green-500',
+    to: 'to-emerald-500',
+    text: 'text-green-600 dark:text-green-400',
+    bg: 'bg-green-50 dark:bg-green-900/20',
+    border: 'border-green-100 dark:border-green-800'
+  },
+  {
+    id: 'pdf-to-images',
+    name: 'PDF to Images',
+    icon: 'fas fa-image',
+    path: '/pdf-to-images',
+    description: 'Convert PDF pages to high-resolution images.',
+    from: 'from-purple-500',
+    to: 'to-pink-500',
+    text: 'text-purple-600 dark:text-purple-400',
+    bg: 'bg-purple-50 dark:bg-purple-900/20',
+    border: 'border-purple-100 dark:border-purple-800'
+  },
+  {
+    id: 'images-to-pdf',
+    name: 'Images to PDF',
+    icon: 'fas fa-file-pdf',
+    path: '/images-to-pdf',
+    description: 'Create a PDF document from your image files.',
+    from: 'from-pink-500',
+    to: 'to-rose-500',
+    text: 'text-pink-600 dark:text-pink-400',
+    bg: 'bg-pink-50 dark:bg-pink-900/20',
+    border: 'border-pink-100 dark:border-pink-800'
+  },
+  {
+    id: 'extract-text',
+    name: 'Extract Text',
+    icon: 'fas fa-file-alt',
+    path: '/extract-text',
+    description: 'Extract text content from your PDF documents.',
+    from: 'from-teal-500',
+    to: 'to-cyan-500',
+    text: 'text-teal-600 dark:text-teal-400',
+    bg: 'bg-teal-50 dark:bg-teal-900/20',
+    border: 'border-teal-100 dark:border-teal-800'
+  },
+  {
+    id: 'watermark',
+    name: 'Watermark PDF',
+    icon: 'fas fa-tint',
+    path: '/watermark-pdf',
+    description: 'Add text or image watermarks to your PDFs.',
+    from: 'from-indigo-500',
+    to: 'to-violet-500',
+    text: 'text-indigo-600 dark:text-indigo-400',
+    bg: 'bg-indigo-50 dark:bg-indigo-900/20',
+    border: 'border-indigo-100 dark:border-indigo-800'
+  }
+]
+
 function scrollToFeatures() {
   featuresSection.value?.scrollIntoView({ behavior: 'smooth' })
+}
+
+function scrollToTools() {
+  toolsSection.value?.scrollIntoView({ behavior: 'smooth' })
 }
 
 function setActiveBlog(index) {
@@ -331,6 +480,13 @@ onMounted(() => {
   // Initialize blog slider
   setActiveBlog(1)
 })
+
+const stats = [
+  { value: '10M+', label: 'PDFs Merged' },
+  { value: '500K+', label: 'Happy Users' },
+  { value: '99.9%', label: 'Success Rate' },
+  { value: '24/7', label: 'Uptime' }
+]
 </script>
 
 <style scoped>
