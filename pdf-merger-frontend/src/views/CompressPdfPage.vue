@@ -2,92 +2,87 @@
   <div
     class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
     <NavigationBar />
+    <section class="relative min-h-screen pt-32 pb-24 px-4">
+      <div class="container mx-auto max-w-7xl">
+        <div class="text-center mb-12">
+          <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            Compress PDF
+          </h1>
+          <p class="text-lg text-gray-600 dark:text-gray-400">
+            Reduce file size while maintaining quality.
+          </p>
+        </div>
 
-    <section class="relative overflow-hidden mx-auto pt-40 pb-24">
-      <!-- Background decoration -->
-      <div
-        class="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-br from-primary-500/10 to-indigo-500/10 rounded-full blur-3xl">
-      </div>
-      <div
-        class="absolute -bottom-24 -left-24 w-96 h-96 bg-gradient-to-tr from-primary-500/10 to-indigo-500/10 rounded-full blur-3xl">
-      </div>
+        <!-- Mobile Sidebar Toggle -->
+        <button @click="isSidebarOpen = true"
+          class="md:hidden mt-6 inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full text-gray-700 dark:text-gray-200 font-medium shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          <i class="fas fa-th-list text-primary-600"></i>
+          <span>Browse All Tools</span>
+        </button>
 
-      <div class="relative z-10 text-center  mx-auto">
+        <div class="flex flex-col md:flex-row gap-8 items-stretch justify-center">
+          <Sidebar :isOpen="isSidebarOpen" @close="isSidebarOpen = false" class="md:w-72 flex-shrink-0" />
 
-        <h1 class="text-4xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-          Merge PDFs
-          <span class="relative">
-            <span
-              class="bg-gradient-to-r from-primary-600 to-indigo-600 bg-clip-text text-transparent">Effortlessly</span>
-            <div
-              class="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-indigo-500 rounded-full">
-            </div>
-          </span>
-        </h1>
-
-        <p class="text-xl md:text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
-          Combine multiple PDF files into a single document with our lightning-fast, secure, and completely free online
-          tool.
-        </p>
-        <div class="max-w-4xl mx-auto">
-          <CardComponent class="shadow-2xl border-2 border-gray-100 dark:border-gray-800">
-            <div class="bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 p-8">
-              <div
-                class="border-3 border-dashed border-primary-300 dark:border-primary-700 rounded-2xl p-12 transition-all duration-300 hover:border-primary-500"
-                @dragover.prevent @drop.prevent="handleDrop">
-                <label for="file-upload" class="cursor-pointer block">
-                  <div class="flex flex-col items-center justify-center">
-                    <div
-                      class="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-primary-100 to-indigo-100 dark:from-primary-900/30 dark:to-indigo-900/30 flex items-center justify-center">
-                      <i class="fas fa-compress text-4xl text-primary-600 dark:text-primary-400"></i>
+          <div class="flex-1 w-full max-w-4xl">
+            <CardComponent class="h-full shadow-2xl border-2 border-gray-100 dark:border-gray-800 overflow-hidden">
+              <div class="bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 p-8">
+                <div
+                  class="border-3 border-dashed border-primary-300 dark:border-primary-700 rounded-2xl p-12 transition-all duration-300 hover:border-primary-500"
+                  @dragover.prevent @drop.prevent="handleDrop">
+                  <label for="file-upload" class="cursor-pointer block">
+                    <div class="flex flex-col items-center justify-center">
+                      <div
+                        class="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-primary-100 to-indigo-100 dark:from-primary-900/30 dark:to-indigo-900/30 flex items-center justify-center">
+                        <i class="fas fa-compress text-4xl text-primary-600 dark:text-primary-400"></i>
+                      </div>
+                      <div class="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-3">
+                        {{ selectedFile ? selectedFile.name : 'Upload PDF File' }}
+                      </div>
+                      <div class="text-gray-500 dark:text-gray-400 mb-4">
+                        or drag and drop PDF file here
+                      </div>
+                      <input id="file-upload" type="file" accept=".pdf" @change="handleFileSelect" class="hidden" />
                     </div>
-                    <div class="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-3">
-                      {{ selectedFile ? selectedFile.name : 'Upload PDF File' }}
-                    </div>
-                    <div class="text-gray-500 dark:text-gray-400 mb-4">
-                      or drag and drop PDF file here
-                    </div>
-                    <input id="file-upload" type="file" accept=".pdf" @change="handleFileSelect" class="hidden" />
-                  </div>
-                </label>
-              </div>
-
-              <div v-if="selectedFile" class="mt-8">
-                <div class="mb-6">
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Compression Quality (1-100)
                   </label>
-                  <input v-model.number="quality" type="range" min="1" max="100" value="75" class="w-full" />
-                  <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    <span>Lower Size</span>
-                    <span class="font-semibold">{{ quality }}</span>
-                    <span>Higher Quality</span>
+                </div>
+
+                <div v-if="selectedFile" class="mt-8">
+                  <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Compression Quality (1-100)
+                    </label>
+                    <input v-model.number="quality" type="range" min="1" max="100" value="75" class="w-full" />
+                    <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400 mt-1">
+                      <span>Lower Size</span>
+                      <span class="font-semibold">{{ quality }}</span>
+                      <span>Higher Quality</span>
+                    </div>
+                  </div>
+
+                  <div class="flex gap-4">
+                    <button @click="compressPdf" :disabled="isLoading"
+                      class="flex-1 bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                      <span v-if="!isLoading">Compress PDF</span>
+                      <span v-else>{{ progressText }}</span>
+                    </button>
+                    <button @click="clearFile"
+                      class="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300">
+                      Clear
+                    </button>
                   </div>
                 </div>
 
-                <div class="flex gap-4">
-                  <button @click="compressPdf" :disabled="isLoading"
-                    class="flex-1 bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                    <span v-if="!isLoading">Compress PDF</span>
-                    <span v-else>{{ progressText }}</span>
-                  </button>
-                  <button @click="clearFile"
-                    class="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-300">
-                    Clear
-                  </button>
+                <div v-if="successMessage"
+                  class="mt-4 p-4 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-xl">
+                  {{ successMessage }}
+                </div>
+                <div v-if="errorMessage"
+                  class="mt-4 p-4 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 rounded-xl">
+                  {{ errorMessage }}
                 </div>
               </div>
-
-              <div v-if="successMessage"
-                class="mt-4 p-4 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-xl">
-                {{ successMessage }}
-              </div>
-              <div v-if="errorMessage"
-                class="mt-4 p-4 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 rounded-xl">
-                {{ errorMessage }}
-              </div>
-            </div>
-          </CardComponent>
+            </CardComponent>
+          </div>
         </div>
       </div>
     </section>
@@ -102,6 +97,7 @@ import { ref } from 'vue'
 import NavigationBar from '../components/NavigationBar.vue'
 import FooterSection from '../components/FooterSection.vue'
 import CardComponent from '../components/CardComponent.vue'
+import Sidebar from '@/components/Sidebar.vue'
 
 const selectedFile = ref(null)
 const quality = ref(75)

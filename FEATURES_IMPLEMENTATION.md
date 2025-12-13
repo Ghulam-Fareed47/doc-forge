@@ -196,3 +196,4 @@ fetch('http://localhost:8000/api/extract-text', {
 - All features maintain the same UI/UX design as your existing merge feature
 
 
+

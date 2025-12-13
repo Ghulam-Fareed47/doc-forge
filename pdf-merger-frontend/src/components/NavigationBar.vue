@@ -13,13 +13,9 @@
 
         <!-- Desktop Navigation -->
         <div class="hidden md:flex md:items-center md:justify-center md:gap-5">
-          <router-link
-            v-for="link in navLinks"
-            :key="link.path"
-            :to="link.path"
+          <router-link v-for="link in navLinks" :key="link.path" :to="link.path"
             class="inline-block rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-white"
-            :class="isActive(link.path) ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white' : 'text-gray-700 dark:text-gray-300'"
-          >
+            :class="isActive(link.path) ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white' : 'text-gray-700 dark:text-gray-300'">
             <i :class="link.icon + ' mr-2'"></i>
             {{ link.name }}
           </router-link>
@@ -28,21 +24,17 @@
         <!-- Right side buttons -->
         <div class="flex items-center justify-end gap-3">
           <!-- Theme Toggle -->
-          <button
-            @click="themeStore.toggleTheme()"
+          <button @click="themeStore.toggleTheme()"
             class="inline-flex items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-gray-700 dark:hover:bg-gray-700"
-            :title="themeStore.isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
-          >
+            :title="themeStore.isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
             <i v-if="themeStore.isDark" class="fas fa-sun mr-2 text-yellow-500"></i>
             <i v-else class="fas fa-moon mr-2 text-indigo-500"></i>
             {{ themeStore.isDark ? 'Light' : 'Dark' }}
           </button>
 
           <!-- Mobile Menu Button -->
-          <button
-            @click="mobileMenuOpen = !mobileMenuOpen"
-            class="md:hidden inline-flex items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-gray-700 dark:hover:bg-gray-700"
-          >
+          <button @click="mobileMenuOpen = !mobileMenuOpen"
+            class="md:hidden inline-flex items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-gray-700 dark:hover:bg-gray-700">
             <i v-if="!mobileMenuOpen" class="fas fa-bars"></i>
             <i v-else class="fas fa-times"></i>
           </button>
@@ -52,23 +44,16 @@
       <!-- Mobile Menu -->
       <div v-if="mobileMenuOpen" class="md:hidden mt-4 pt-4 border-t border-gray-200 dark:border-gray-800">
         <div class="flex flex-col gap-2">
-          <router-link
-            v-for="link in navLinks"
-            :key="link.path"
-            :to="link.path"
-            @click="mobileMenuOpen = false"
+          <router-link v-for="link in navLinks" :key="link.path" :to="link.path" @click="mobileMenuOpen = false"
             class="inline-flex items-center rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-white"
-            :class="isActive(link.path) ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white' : 'text-gray-700 dark:text-gray-300'"
-          >
+            :class="isActive(link.path) ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white' : 'text-gray-700 dark:text-gray-300'">
             <i :class="link.icon + ' mr-3 w-5 text-center'"></i>
             {{ link.name }}
           </router-link>
-          
+
           <!-- Mobile Theme Toggle -->
-          <button
-            @click="themeStore.toggleTheme()"
-            class="inline-flex items-center rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-white text-gray-700 dark:text-gray-300"
-          >
+          <button @click="themeStore.toggleTheme()"
+            class="inline-flex items-center rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-white text-gray-700 dark:text-gray-300">
             <i v-if="themeStore.isDark" class="fas fa-sun mr-3 w-5 text-center text-yellow-500"></i>
             <i v-else class="fas fa-moon mr-3 w-5 text-center text-indigo-500"></i>
             {{ themeStore.isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode' }}
@@ -90,6 +75,7 @@ const mobileMenuOpen = ref(false)
 
 const navLinks = [
   { name: 'Home', path: '/', icon: 'fas fa-home' },
+  { name: 'Tools', path: '/merge-pdf', icon: 'fas fa-tools' },
   { name: 'About', path: '/about', icon: 'fas fa-info-circle' },
   { name: 'Blog', path: '/blog', icon: 'fas fa-newspaper' }
 ]

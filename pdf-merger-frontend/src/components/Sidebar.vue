@@ -1,77 +1,50 @@
 <template>
-  <aside
-    :class="[
-      'sticky left-0 top-0 h-52 z-40 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-all duration-300 ease-in-out',
-      isOpen ? 'translate-x-0' : '-translate-x-full',
-      'md:translate-x-0 md:top-24 md:left-4 md:bottom-4 md:h-auto md:rounded-2xl md:border md:shadow-xl md:bg-white/90 md:dark:bg-gray-900/90 md:backdrop-blur-md',
-      isCollapsed ? 'md:w-16' : 'md:w-64'
-    ]"
-    class="overflow-y-auto transition-all duration-500 ease-in-out"
-    :style="{ 'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)' }"
-  >
-    <div class="p-4">
+
+  <aside :class="[
+    'fixed inset-y-0 left-0 z-40 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-transform duration-300 ease-in-out md:translate-x-0 md:relative md:inset-auto md:bg-transparent md:dark:bg-transparent md:border-0 md:shadow-none',
+    isOpen ? 'translate-x-0' : '-translate-x-full',
+    isCollapsed ? 'md:w-20' : 'md:w-72'
+  ]" class="flex flex-col h-full bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent"
+    :style="{ 'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)' }">
+    <div
+      class="h-full flex flex-col p-4 md:p-6 bg-white dark:bg-gray-900 md:rounded-2xl md:shadow-2xl border-r md:border border-gray-200 dark:border-gray-800">
       <!-- Sidebar Header -->
-      <div class="flex items-center justify-between mb-6" :class="{ 'flex-col gap-2': isCollapsed }">
-        <h2 
-          class="text-lg font-bold text-gray-900 dark:text-white transition-all duration-500 ease-in-out"
-          :class="{
-            'opacity-0 max-w-0': isCollapsed, 
-            'opacity-100 max-w-full': !isCollapsed,
-            'overflow-hidden': true
-          }"
-          style="transition-property: opacity, max-width; white-space: nowrap;"
-        >
+      <div class="flex items-center justify-between mb-8" :class="{ 'flex-col gap-4': isCollapsed }">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white transition-all duration-300" :class="{
+          'opacity-0 w-0 hidden': isCollapsed,
+          'opacity-100 w-auto': !isCollapsed
+        }">
           PDF Tools
         </h2>
         <div class="flex items-center gap-2">
-          <!-- Collapse Button with smooth rotation -->
-          <button
-            @click="toggleCollapse"
-            class="hidden md:flex items-center justify-center p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-all duration-500 ease-in-out hover:scale-110 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"
-            :title="isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
-            :style="{ transform: isCollapsed ? 'rotate(0deg)' : 'rotate(180deg)' }"
-          >
-            <i class="fas fa-chevron-left transition-transform duration-500"></i>
+          <!-- Collapse Button -->
+          <button @click="toggleCollapse"
+            class="hidden md:flex items-center justify-center w-8 h-8 text-gray-500 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400 transition-colors bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-primary-50 dark:hover:bg-primary-900/30">
+            <i class="fas fa-chevron-left transition-transform duration-300" :class="{ 'rotate-180': isCollapsed }"></i>
           </button>
-          
-          <!-- Close Button for mobile -->
-          <button
-            @click="$emit('close')"
-            class="md:hidden p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-all duration-300 hover:scale-110 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"
-          >
+
+          <!-- Close Button -->
+          <button @click="$emit('close')"
+            class="md:hidden p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
             <i class="fas fa-times"></i>
           </button>
         </div>
       </div>
 
       <!-- Tools List -->
-      <nav class="space-y-2">
-        <router-link
-          v-for="tool in tools"
-          :key="tool.id"
-          :to="tool.path"
-          @click="$emit('close')"
-          class="flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-500 ease-in-out overflow-hidden"
-          :class="[
+      <nav class="space-y-2 flex-1 overflow-y-auto custom-scrollbar">
+        <router-link v-for="tool in tools" :key="tool.id" :to="tool.path" @click="$emit('close')"
+          class="group flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300" :class="[
             isActive(tool.path)
-              ? 'bg-gradient-to-r from-primary-600 to-indigo-600 text-white shadow-lg'
-              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800',
-            isCollapsed ? 'justify-center px-3' : 'justify-start'
-          ]"
-          :title="isCollapsed ? tool.name : ''"
-        >
-          <i 
-            :class="[tool.icon, 'text-center transition-transform duration-500']"
-            :style="{ 'min-width': '20px' }"
-          ></i>
-          <span 
-            class="font-medium transition-all duration-500 ease-in-out overflow-hidden"
-            :class="{
-              'opacity-0 max-w-0': isCollapsed, 
-              'opacity-100 max-w-full': !isCollapsed,
-            }"
-            style="transition-property: opacity, max-width; white-space: nowrap;"
-          >
+              ? 'bg-primary-600 text-white shadow-lg shadow-primary-600/30'
+              : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary-600 dark:hover:text-primary-400',
+            isCollapsed ? 'justify-center px-2' : ''
+          ]" :title="isCollapsed ? tool.name : ''">
+          <i :class="[tool.icon, 'text-lg transition-transform duration-300 group-hover:scale-110']"></i>
+          <span class="font-medium whitespace-nowrap transition-all duration-300" :class="{
+            'w-0 opacity-0 hidden': isCollapsed,
+            'w-auto opacity-100': !isCollapsed
+          }">
             {{ tool.name }}
           </span>
         </router-link>
@@ -79,13 +52,11 @@
     </div>
   </aside>
 
-  <!-- Overlay for mobile with fade animation -->
-  <div
-    v-if="isOpen"
-    @click="$emit('close')"
-    class="fixed inset-0 bg-black/50 z-30 md:hidden transition-opacity duration-300 ease-in-out"
-    :class="isOpen ? 'opacity-100' : 'opacity-0'"
-  ></div>
+  <!-- Overlay -->
+  <div v-if="isOpen" @click="$emit('close')"
+    class="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 md:hidden transition-opacity duration-300"
+    :class="isOpen ? 'opacity-100' : 'opacity-0'"></div>
+
 </template>
 
 <script setup>
@@ -105,7 +76,7 @@ defineProps({
 defineEmits(['close'])
 
 const tools = [
-  { id: 'merge', name: 'Merge PDF', icon: 'fas fa-file-pdf', path: '/' },
+  { id: 'merge', name: 'Merge PDF', icon: 'fas fa-file-pdf', path: '/merge-pdf' },
   { id: 'split', name: 'Split PDF', icon: 'fas fa-cut', path: '/split-pdf' },
   { id: 'compress', name: 'Compress PDF', icon: 'fas fa-compress', path: '/compress-pdf' },
   { id: 'pdf-to-images', name: 'PDF to Images', icon: 'fas fa-image', path: '/pdf-to-images' },

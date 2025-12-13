@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LandingPage from '../views/LandingPage.vue'
+import MergePdfPage from '../views/MergePdfPage.vue'
 import AboutPage from '../views/AboutPage.vue'
 import BlogPage from '../views/BlogPage.vue'
 import SplitPdfPage from '../views/SplitPdfPage.vue'
@@ -9,6 +10,8 @@ import ImagesToPdfPage from '../views/ImagesToPdfPage.vue'
 import ExtractTextPage from '../views/ExtractTextPage.vue'
 import WatermarkPdfPage from '../views/WatermarkPdfPage.vue'
 
+import { useLoader } from '../composables/useLoader'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -16,6 +19,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: LandingPage
+    },
+    {
+      path: '/merge-pdf',
+      name: 'merge-pdf',
+      component: MergePdfPage
     },
     {
       path: '/about',
@@ -58,6 +66,19 @@ const router = createRouter({
       component: WatermarkPdfPage
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  const { showLoader } = useLoader()
+  showLoader()
+  next()
+})
+
+router.afterEach(() => {
+  const { hideLoader } = useLoader()
+  setTimeout(() => {
+    hideLoader()
+  }, 1000)
 })
 
 export default router
