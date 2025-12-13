@@ -90,7 +90,8 @@ const mobileMenuOpen = ref(false)
 
 const navLinks = [
   { name: 'Home', path: '/', icon: 'fas fa-home' },
-  { name: 'Blogs', path: '/contact', icon: 'fas fa-envelope' }
+  { name: 'About', path: '/about', icon: 'fas fa-info-circle' },
+  { name: 'Blog', path: '/blog', icon: 'fas fa-newspaper' }
 ]
 
 const isActive = (path) => route.path === path

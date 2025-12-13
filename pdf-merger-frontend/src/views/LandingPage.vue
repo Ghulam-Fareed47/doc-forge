@@ -1,10 +1,12 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
+    class="min-h-screen relative bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
     <NavigationBar />
+    <Sidebar />
 
+    <div class=" transition-all duration-300">
     <!-- Hero Section -->
-    <section class="relative overflow-hidden mx-auto pt-40 pb-24">
+    <section class="relative overflow-hidden mx-auto pt-48 pb-24">
       <!-- Background decoration -->
       <div
         class="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-br from-primary-500/10 to-indigo-500/10 rounded-full blur-3xl">
@@ -417,6 +419,7 @@
     </div>
 
     <FooterSection />
+    </div>
   </div>
 </template>
 
@@ -425,6 +428,7 @@ import { ref, computed, onMounted } from 'vue'
 import NavigationBar from '../components/NavigationBar.vue'
 import FooterSection from '../components/FooterSection.vue'
 import CardComponent from '../components/CardComponent.vue'
+import Sidebar from '@/components/Sidebar.vue'
 
 const selectedFiles = ref([])
 const isLoading = ref(false)
