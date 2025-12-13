@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
+    class="min-h-screen bg-gradient-to-br from-teal-50 via-white to-cyan-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
     <NavigationBar />
     <section class="relative min-h-screen pt-32 pb-24 px-4">
       <div class="container mx-auto max-w-7xl">
@@ -16,7 +16,7 @@
         <!-- Mobile Sidebar Toggle -->
         <button @click="isSidebarOpen = true"
           class="md:hidden mt-6 inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full text-gray-700 dark:text-gray-200 font-medium shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-          <i class="fas fa-th-list text-primary-600"></i>
+          <i class="fas fa-th-list text-teal-600"></i>
           <span>Browse All Tools</span>
         </button>
 
@@ -25,15 +25,15 @@
 
           <div class="flex-1 w-full max-w-4xl">
             <CardComponent class="h-full shadow-2xl border-2 border-gray-100 dark:border-gray-800 overflow-hidden">
-              <div class="bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 p-8">
+              <div class="bg-gradient-to-br from-white to-teal-50 dark:from-gray-900 dark:to-gray-800 p-8">
                 <div
-                  class="border-3 border-dashed border-primary-300 dark:border-primary-700 rounded-2xl p-12 transition-all duration-300 hover:border-primary-500"
+                  class="border-3 border-dashed border-teal-300 dark:border-teal-700 rounded-2xl p-12 transition-all duration-300 hover:border-teal-500"
                   @dragover.prevent @drop.prevent="handleDrop">
                   <label for="file-upload" class="cursor-pointer block">
                     <div class="flex flex-col items-center justify-center">
                       <div
-                        class="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-primary-100 to-indigo-100 dark:from-primary-900/30 dark:to-indigo-900/30 flex items-center justify-center">
-                        <i class="fas fa-file-alt text-4xl text-primary-600 dark:text-primary-400"></i>
+                        class="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-teal-100 to-cyan-100 dark:from-teal-900/30 dark:to-cyan-900/30 flex items-center justify-center">
+                        <i class="fas fa-file-alt text-4xl text-teal-600 dark:text-teal-400"></i>
                       </div>
                       <div class="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-3">
                         {{ selectedFile ? selectedFile.name : 'Upload PDF File' }}
@@ -49,7 +49,7 @@
                 <div v-if="selectedFile" class="mt-8">
                   <div class="flex gap-4 mb-6">
                     <button @click="extractText" :disabled="isLoading"
-                      class="flex-1 bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                      class="flex-1 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
                       <span v-if="!isLoading">Extract Text</span>
                       <span v-else>{{ progressText }}</span>
                     </button>
@@ -65,12 +65,12 @@
                         Extracted Text ({{ pageCount }} page{{ pageCount > 1 ? 's' : '' }})
                       </label>
                       <button @click="copyText"
-                        class="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300">
+                        class="text-sm text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300">
                         <i class="fas fa-copy mr-1"></i> Copy
                       </button>
                     </div>
                     <textarea v-model="extractedText" readonly
-                      class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:border-primary-500 h-64 font-mono text-sm"></textarea>
+                      class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:border-teal-500 h-64 font-mono text-sm"></textarea>
                   </div>
                 </div>
 

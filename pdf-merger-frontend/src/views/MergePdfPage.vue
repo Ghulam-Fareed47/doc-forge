@@ -1,6 +1,6 @@
 <template>
     <div
-        class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
+        class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
         <NavigationBar />
 
 
@@ -29,15 +29,15 @@
                         <CardComponent
                             class="h-full shadow-2xl border-2 border-gray-100 dark:border-gray-800 overflow-hidden">
                             <div
-                                class="bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 p-8">
-                                <div class="border-3 border-dashed border-primary-300 dark:border-primary-700 rounded-2xl p-12 transition-all duration-300 hover:border-primary-500 dark:hover:border-primary-500 hover:shadow-inner"
+                                class="bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-gray-800 p-8">
+                                <div class="border-3 border-dashed border-blue-300 dark:border-blue-700 rounded-2xl p-12 transition-all duration-300 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-inner"
                                     @dragover.prevent @drop.prevent="handleDrop">
                                     <label for="file-upload" class="cursor-pointer block">
                                         <div class="flex flex-col items-center justify-center">
                                             <div
-                                                class="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-primary-100 to-indigo-100 dark:from-primary-900/30 dark:to-indigo-900/30 flex items-center justify-center">
+                                                class="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900/30 dark:to-cyan-900/30 flex items-center justify-center">
                                                 <i
-                                                    class="fas fa-cloud-upload-alt text-4xl text-primary-600 dark:text-primary-400"></i>
+                                                    class="fas fa-cloud-upload-alt text-4xl text-blue-600 dark:text-blue-400"></i>
                                             </div>
                                             <div class="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-3">
                                                 {{ uploadButtonText }}
@@ -110,7 +110,7 @@
 
                                     <!-- Merge Button -->
                                     <button @click="mergePdfs" :disabled="isLoading || selectedFiles.length < 2"
-                                        class="group w-full mt-8 inline-flex justify-center whitespace-nowrap rounded-xl px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed">
+                                        class="group w-full mt-8 inline-flex justify-center whitespace-nowrap rounded-xl px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed">
                                         <span v-if="isLoading" class="relative z-10 flex items-center gap-3">
                                             <i class="fas fa-spinner fa-spin"></i>
                                             Processing {{ progressText }}

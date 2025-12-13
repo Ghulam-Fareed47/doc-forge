@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
+    class="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
     <NavigationBar />
     <section class="relative min-h-screen pt-32 pb-24 px-4">
       <div class="container mx-auto max-w-7xl">
@@ -16,7 +16,7 @@
         <!-- Mobile Sidebar Toggle -->
         <button @click="isSidebarOpen = true"
           class="md:hidden mt-6 inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full text-gray-700 dark:text-gray-200 font-medium shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-          <i class="fas fa-th-list text-primary-600"></i>
+          <i class="fas fa-th-list text-green-600"></i>
           <span>Browse All Tools</span>
         </button>
 
@@ -25,15 +25,15 @@
 
           <div class="flex-1 w-full max-w-4xl">
             <CardComponent class="h-full shadow-2xl border-2 border-gray-100 dark:border-gray-800 overflow-hidden">
-              <div class="bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 p-8">
+              <div class="bg-gradient-to-br from-white to-green-50 dark:from-gray-900 dark:to-gray-800 p-8">
                 <div
-                  class="border-3 border-dashed border-primary-300 dark:border-primary-700 rounded-2xl p-12 transition-all duration-300 hover:border-primary-500"
+                  class="border-3 border-dashed border-green-300 dark:border-green-700 rounded-2xl p-12 transition-all duration-300 hover:border-green-500"
                   @dragover.prevent @drop.prevent="handleDrop">
                   <label for="file-upload" class="cursor-pointer block">
                     <div class="flex flex-col items-center justify-center">
                       <div
-                        class="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-primary-100 to-indigo-100 dark:from-primary-900/30 dark:to-indigo-900/30 flex items-center justify-center">
-                        <i class="fas fa-compress text-4xl text-primary-600 dark:text-primary-400"></i>
+                        class="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 flex items-center justify-center">
+                        <i class="fas fa-compress text-4xl text-green-600 dark:text-green-400"></i>
                       </div>
                       <div class="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-3">
                         {{ selectedFile ? selectedFile.name : 'Upload PDF File' }}
@@ -61,7 +61,7 @@
 
                   <div class="flex gap-4">
                     <button @click="compressPdf" :disabled="isLoading"
-                      class="flex-1 bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                      class="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
                       <span v-if="!isLoading">Compress PDF</span>
                       <span v-else>{{ progressText }}</span>
                     </button>

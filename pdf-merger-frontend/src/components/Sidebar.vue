@@ -1,7 +1,7 @@
 <template>
 
   <aside :class="[
-    'fixed inset-y-0 left-0 z-40 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-transform duration-300 ease-in-out md:translate-x-0 md:relative md:inset-auto md:bg-transparent md:dark:bg-transparent md:border-0 md:shadow-none',
+    'fixed inset-y-0 left-0 z-40 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-all duration-300 ease-in-out md:translate-x-0 md:relative md:inset-auto md:bg-transparent md:dark:bg-transparent md:border-0 md:shadow-none',
     isOpen ? 'translate-x-0' : '-translate-x-full',
     isCollapsed ? 'md:w-20' : 'md:w-72'
   ]" class="flex flex-col h-full bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent"
@@ -41,8 +41,8 @@
             isCollapsed ? 'justify-center px-2' : ''
           ]" :title="isCollapsed ? tool.name : ''">
           <i :class="[tool.icon, 'text-lg transition-transform duration-300 group-hover:scale-110']"></i>
-          <span class="font-medium whitespace-nowrap transition-all duration-300" :class="{
-            'w-0 opacity-0 hidden': isCollapsed,
+          <span class="font-medium whitespace-nowrap overflow-hidden transition-all duration-300" :class="{
+            'w-0 opacity-0': isCollapsed,
             'w-auto opacity-100': !isCollapsed
           }">
             {{ tool.name }}
@@ -64,7 +64,7 @@ import { useRoute } from 'vue-router'
 import { ref } from 'vue'
 
 const route = useRoute()
-const isCollapsed = ref(false)
+const isCollapsed = ref(true)
 
 defineProps({
   isOpen: {
