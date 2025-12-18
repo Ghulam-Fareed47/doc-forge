@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\PdfController as ApiPdfController;
 use App\Http\Controllers\PdfController;
 
-Route::post('/merge-pdfs', [PdfController::class, 'merge']);
-Route::post('/split-pdf', [PdfController::class, 'split']);
+Route::post('/merge-pdfs', [ApiPdfController::class, 'merge']);
+Route::post('/split-pdf', [ApiPdfController::class, 'split']);
 Route::post('/compress-pdf', [PdfController::class, 'compress']);
 Route::post('/pdf-to-images', [PdfController::class, 'pdfToImages']);
 Route::post('/images-to-pdf', [PdfController::class, 'imagesToPdf']);

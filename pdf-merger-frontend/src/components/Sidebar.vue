@@ -34,11 +34,11 @@
       <!-- Tools List -->
       <nav class="space-y-2 flex-1 overflow-y-auto custom-scrollbar">
         <router-link v-for="tool in tools" :key="tool.id" :to="tool.path" @click="$emit('close')"
-          class="group flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300" :class="[
+          class="group flex items-center px-4 py-3 rounded-xl transition-all duration-300" :class="[
             isActive(tool.path)
               ? 'bg-primary-600 text-white shadow-lg shadow-primary-600/30'
               : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary-600 dark:hover:text-primary-400',
-            isCollapsed ? 'justify-center px-2' : ''
+            isCollapsed ? 'justify-center px-2' : 'gap-3'
           ]" :title="isCollapsed ? tool.name : ''">
           <i :class="[tool.icon, 'text-lg transition-transform duration-300 group-hover:scale-110']"></i>
           <span class="font-medium whitespace-nowrap overflow-hidden transition-all duration-300" :class="{
@@ -95,3 +95,4 @@ const isActive = (path) => {
   return false
 }
 </script>
+
