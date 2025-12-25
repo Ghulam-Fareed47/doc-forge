@@ -161,6 +161,8 @@ function clearFile() {
   clearMessages()
 }
 
+import { pdfService } from '@/services/pdfService'
+
 async function addWatermark() {
   clearMessages()
 
@@ -170,43 +172,29 @@ async function addWatermark() {
   }
 
   isLoading.value = true
-  progressText.value = 'Adding watermark...'
+  progressText.value = 'Drawing watermark...'
 
   try {
-    const formData = new FormData()
-    formData.append('pdf', selectedFile.value)
-    formData.append('text', watermarkText.value)
-    formData.append('position', position.value)
-    formData.append('opacity', opacity.value)
+    progressText.value = 'Processing in browser...'
+    
+    // Using frontend logic for 100% free processing
+    const watermarkedData = await pdfService.drawWatermark(
+      selectedFile.value, 
+      watermarkText.value, 
+      position.value, 
+      opacity.value
+    )
 
-    const response = await fetch('http://localhost:8000/api/watermark-pdf', {
-      method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
-    })
+    progressText.value = 'Saving...'
+    pdfService.download(watermarkedData, `watermarked-document-${Date.now()}.pdf`)
 
-    if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(errorData.error || 'Failed to add watermark')
-    }
-
-    progressText.value = 'Downloading...'
-    const blob = await response.blob()
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `watermarked-document-${Date.now()}.pdf`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    window.URL.revokeObjectURL(url)
-
-    showSuccess('Watermark added successfully! Download started.')
+    showSuccess('Watermark added successfully locally! Download started.')
     setTimeout(() => {
       clearFile()
     }, 2000)
 
   } catch (error) {
+    console.error('Error:', error)
     showError(`Failed to add watermark: ${error.message}`)
   } finally {
     isLoading.value = false

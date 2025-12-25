@@ -5,7 +5,6 @@ import AboutPage from '../views/AboutPage.vue'
 import BlogPage from '../views/BlogPage.vue'
 import SplitPdfPage from '../views/SplitPdfPage.vue'
 import CompressPdfPage from '../views/CompressPdfPage.vue'
-import PdfToImagesPage from '../views/PdfToImagesPage.vue'
 import ImagesToPdfPage from '../views/ImagesToPdfPage.vue'
 import ExtractTextPage from '../views/ExtractTextPage.vue'
 import WatermarkPdfPage from '../views/WatermarkPdfPage.vue'
@@ -44,11 +43,6 @@ const router = createRouter({
       path: '/compress-pdf',
       name: 'compress-pdf',
       component: CompressPdfPage
-    },
-    {
-      path: '/pdf-to-images',
-      name: 'pdf-to-images',
-      component: PdfToImagesPage
     },
     {
       path: '/images-to-pdf',

@@ -415,18 +415,6 @@ const tools = [
     border: 'border-green-100 dark:border-green-800'
   },
   {
-    id: 'pdf-to-images',
-    name: 'PDF to Images',
-    icon: 'fas fa-image',
-    path: '/pdf-to-images',
-    description: 'Convert PDF pages to high-resolution images.',
-    from: 'from-purple-500',
-    to: 'to-pink-500',
-    text: 'text-purple-600 dark:text-purple-400',
-    bg: 'bg-purple-50 dark:bg-purple-900/20',
-    border: 'border-purple-100 dark:border-purple-800'
-  },
-  {
     id: 'images-to-pdf',
     name: 'Images to PDF',
     icon: 'fas fa-file-pdf',

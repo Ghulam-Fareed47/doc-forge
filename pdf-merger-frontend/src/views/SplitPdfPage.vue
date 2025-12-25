@@ -134,6 +134,8 @@ function clearFile() {
   clearMessages()
 }
 
+import { pdfService } from '@/services/pdfService'
+
 async function splitPdf() {
   clearMessages()
 
@@ -143,41 +145,24 @@ async function splitPdf() {
   }
 
   isLoading.value = true
-  progressText.value = 'Processing...'
+  progressText.value = 'Preparing...'
 
   try {
-    const formData = new FormData()
-    formData.append('pdf', selectedFile.value)
-    formData.append('pages', pageRange.value)
+    progressText.value = 'Splitting in browser...'
+    
+    // Using frontend logic for 100% free processing
+    const splitPdfData = await pdfService.splitPdf(selectedFile.value, pageRange.value)
 
-    const response = await fetch('http://localhost:8000/api/split-pdf', {
-      method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
-    })
+    progressText.value = 'Saving...'
+    pdfService.download(splitPdfData, `split-document-${Date.now()}.pdf`)
 
-    if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(errorData.error || 'Failed to split PDF')
-    }
-
-    progressText.value = 'Downloading...'
-    const blob = await response.blob()
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `split-document-${Date.now()}.pdf`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    window.URL.revokeObjectURL(url)
-
-    showSuccess('PDF split successfully! Download started.')
+    showSuccess('PDF split successfully locally! Download started.')
     setTimeout(() => {
       clearFile()
     }, 2000)
 
   } catch (error) {
+    console.error('Error:', error)
     showError(`Failed to split PDF: ${error.message}`)
   } finally {
     isLoading.value = false

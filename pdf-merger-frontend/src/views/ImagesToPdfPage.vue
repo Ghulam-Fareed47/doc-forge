@@ -142,6 +142,8 @@ function clearFiles() {
   clearMessages()
 }
 
+import { pdfService } from '@/services/pdfService'
+
 async function convertToPdf() {
   clearMessages()
 
@@ -154,39 +156,21 @@ async function convertToPdf() {
   progressText.value = 'Converting...'
 
   try {
-    const formData = new FormData()
-    selectedFiles.value.forEach((file, index) => {
-      formData.append(`images[${index}]`, file)
-    })
+    progressText.value = 'Processing in browser...'
+    
+    // Using frontend logic for 100% free processing
+    const pdfData = await pdfService.imagesToPdf(selectedFiles.value)
 
-    const response = await fetch('http://localhost:8000/api/images-to-pdf', {
-      method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
-    })
+    progressText.value = 'Saving...'
+    pdfService.download(pdfData, `images-to-pdf-${Date.now()}.pdf`)
 
-    if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(errorData.error || 'Failed to convert images to PDF')
-    }
-
-    progressText.value = 'Downloading...'
-    const blob = await response.blob()
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `images-to-pdf-${Date.now()}.pdf`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    window.URL.revokeObjectURL(url)
-
-    showSuccess('Images converted to PDF successfully! Download started.')
+    showSuccess('Images converted to PDF successfully locally! Download started.')
     setTimeout(() => {
       clearFiles()
     }, 2000)
 
   } catch (error) {
+    console.error('Error:', error)
     showError(`Failed to convert images: ${error.message}`)
   } finally {
     isLoading.value = false

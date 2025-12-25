@@ -9,6 +9,12 @@ use Smalot\PdfParser\Parser;
 
 class PdfController extends Controller
 {
+    /**
+     * Note: Most PDF processing has been moved to the frontend (pdfService.js)
+     * for better compatibility with PDF 1.5+ and to avoid external binaries.
+     * These endpoints remain as basic fallbacks.
+     */
+
     public function merge(Request $request)
     {
         $request->validate([
@@ -17,38 +23,25 @@ class PdfController extends Controller
         ]);
 
         try {
+            $tempDir = storage_path('app/temp');
+            if (!file_exists($tempDir)) mkdir($tempDir, 0755, true);
+            $outputPath = $tempDir . '/merged_' . time() . '.pdf';
+
             $pdf = new Fpdi();
-            
             foreach ($request->file('pdfs') as $file) {
                 $pageCount = $pdf->setSourceFile($file->getPathname());
-                
                 for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
                     $templateId = $pdf->importPage($pageNo);
                     $size = $pdf->getTemplateSize($templateId);
-                    
-                    $pdf->AddPage(
-                        $size['orientation'] ?? 'P',
-                        [$size['width'], $size['height']]
-                    );
+                    $pdf->AddPage($size['orientation'] ?? 'P', [$size['width'], $size['height']]);
                     $pdf->useTemplate($templateId);
                 }
             }
-            
-            // Create temp directory if doesn't exist
-            $tempDir = storage_path('app/temp');
-            if (!file_exists($tempDir)) {
-                mkdir($tempDir, 0755, true);
-            }
-            
-            $outputPath = $tempDir . '/merged_' . time() . '.pdf';
             $pdf->Output($outputPath, 'F');
-            
+
             return response()->download($outputPath)->deleteFileAfterSend(true);
-            
         } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ], 500);
+            return $this->handlePdfException($e);
         }
     }
 
@@ -56,267 +49,55 @@ class PdfController extends Controller
     {
         $request->validate([
             'pdf' => 'required|file|mimes:pdf|max:10240',
-            'pages' => 'required|string' // Format: "1-5,10,15-20"
+            'pages' => 'required|string'
         ]);
 
         try {
             $file = $request->file('pdf');
-            $pagesInput = $request->input('pages');
-            
-            // Parse page ranges (e.g., "1-5,10,15-20")
-            $pageRanges = $this->parsePageRanges($pagesInput);
-            
-            $pdf = new Fpdi();
-            $pageCount = $pdf->setSourceFile($file->getPathname());
-            
-            // Validate page numbers
-            foreach ($pageRanges as $range) {
-                if ($range['start'] < 1 || $range['end'] > $pageCount) {
-                    return response()->json([
-                        'error' => "Invalid page range. PDF has {$pageCount} pages."
-                    ], 400);
-                }
-            }
-            
             $tempDir = storage_path('app/temp');
-            if (!file_exists($tempDir)) {
-                mkdir($tempDir, 0755, true);
-            }
-            
+            if (!file_exists($tempDir)) mkdir($tempDir, 0755, true);
             $outputPath = $tempDir . '/split_' . time() . '.pdf';
+
+            $pageRanges = $this->parsePageRanges($request->input('pages'));
             $outputPdf = new Fpdi();
-            $outputPdf->setSourceFile($file->getPathname());
-            
+            $pageCount = $outputPdf->setSourceFile($file->getPathname());
+
             foreach ($pageRanges as $range) {
                 for ($pageNo = $range['start']; $pageNo <= $range['end']; $pageNo++) {
+                    if ($pageNo > $pageCount) continue;
                     $templateId = $outputPdf->importPage($pageNo);
                     $size = $outputPdf->getTemplateSize($templateId);
-                    
-                    $outputPdf->AddPage(
-                        $size['orientation'] ?? 'P',
-                        [$size['width'], $size['height']]
-                    );
+                    $outputPdf->AddPage($size['orientation'] ?? 'P', [$size['width'], $size['height']]);
                     $outputPdf->useTemplate($templateId);
                 }
             }
-            
             $outputPdf->Output($outputPath, 'F');
-            
+
             return response()->download($outputPath)->deleteFileAfterSend(true);
-            
         } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ], 500);
+            return $this->handlePdfException($e);
         }
     }
 
     public function compress(Request $request)
     {
-        $request->validate([
-            'pdf' => 'required|file|mimes:pdf|max:10240',
-            'quality' => 'sometimes|integer|min:1|max:100' // 1-100, default 75
-        ]);
-
-        try {
-            $file = $request->file('pdf');
-            $quality = $request->input('quality', 75);
-            
-            // For compression, we'll recreate the PDF with lower quality
-            // Note: True compression requires Ghostscript or similar tools
-            // This is a basic implementation
-            $pdf = new Fpdi();
-            $pageCount = $pdf->setSourceFile($file->getPathname());
-            
-            $tempDir = storage_path('app/temp');
-            if (!file_exists($tempDir)) {
-                mkdir($tempDir, 0755, true);
-            }
-            
-            $outputPath = $tempDir . '/compressed_' . time() . '.pdf';
-            $outputPdf = new Fpdi();
-            
-            for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
-                $templateId = $outputPdf->setSourceFile($file->getPathname());
-                $templateId = $outputPdf->importPage($pageNo);
-                $size = $outputPdf->getTemplateSize($templateId);
-                
-                $outputPdf->AddPage(
-                    $size['orientation'] ?? 'P',
-                    [$size['width'], $size['height']]
-                );
-                $outputPdf->useTemplate($templateId);
-            }
-            
-            $outputPdf->Output($outputPath, 'F');
-            
-            return response()->download($outputPath)->deleteFileAfterSend(true);
-            
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    public function pdfToImages(Request $request)
-    {
-        $request->validate([
-            'pdf' => 'required|file|mimes:pdf|max:10240',
-            'format' => 'sometimes|string|in:png,jpg,jpeg' // Image format
-        ]);
-
-        try {
-            // Note: This requires Imagick PHP extension
-            // For now, return error if not available
-            if (!extension_loaded('imagick')) {
-                return response()->json([
-                    'error' => 'Imagick extension is required for PDF to Images conversion. Please install php-imagick.'
-                ], 500);
-            }
-            
-            $file = $request->file('pdf');
-            $format = $request->input('format', 'png');
-            
-            $imagick = new \Imagick();
-            $imagick->setResolution(150, 150); // DPI
-            $imagick->readImage($file->getPathname());
-            $imagick->setImageFormat($format);
-            
-            $tempDir = storage_path('app/temp');
-            if (!file_exists($tempDir)) {
-                mkdir($tempDir, 0755, true);
-            }
-            
-            // Create ZIP file for multiple images
-            $zipPath = $tempDir . '/images_' . time() . '.zip';
-            $zip = new \ZipArchive();
-            $zip->open($zipPath, \ZipArchive::CREATE);
-            
-            foreach ($imagick as $index => $page) {
-                $imagePath = $tempDir . '/page_' . ($index + 1) . '.' . $format;
-                $page->writeImage($imagePath);
-                $zip->addFile($imagePath, 'page_' . ($index + 1) . '.' . $format);
-            }
-            
-            $zip->close();
-            $imagick->clear();
-            $imagick->destroy();
-            
-            // Clean up individual image files
-            foreach (glob($tempDir . '/page_*.' . $format) as $imageFile) {
-                unlink($imageFile);
-            }
-            
-            return response()->download($zipPath)->deleteFileAfterSend(true);
-            
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    public function imagesToPdf(Request $request)
-    {
-        $request->validate([
-            'images' => 'required|array|min:1',
-            'images.*' => 'required|file|mimes:jpeg,jpg,png,gif,bmp|max:10240'
-        ]);
-
-        try {
-            $files = $request->file('images');
-            
-            $tempDir = storage_path('app/temp');
-            if (!file_exists($tempDir)) {
-                mkdir($tempDir, 0755, true);
-            }
-            
-            $outputPath = $tempDir . '/images_to_pdf_' . time() . '.pdf';
-            $pdf = new Fpdf();
-            
-            foreach ($files as $imageFile) {
-                $imagePath = $imageFile->getPathname();
-                $imageInfo = getimagesize($imagePath);
-                
-                if (!$imageInfo) {
-                    continue;
-                }
-                
-                $width = $imageInfo[0];
-                $height = $imageInfo[1];
-                $orientation = $width > $height ? 'L' : 'P';
-                
-                $pdf->AddPage($orientation, [$width, $height]);
-                
-                // Determine image type and add to PDF
-                $imageType = $imageInfo[2];
-                switch ($imageType) {
-                    case IMAGETYPE_JPEG:
-                        $pdf->Image($imagePath, 0, 0, $width, $height);
-                        break;
-                    case IMAGETYPE_PNG:
-                        $pdf->Image($imagePath, 0, 0, $width, $height);
-                        break;
-                    case IMAGETYPE_GIF:
-                        // Convert GIF to temporary PNG
-                        $img = imagecreatefromgif($imagePath);
-                        $tempPng = $tempDir . '/temp_' . time() . '.png';
-                        imagepng($img, $tempPng);
-                        $pdf->Image($tempPng, 0, 0, $width, $height);
-                        unlink($tempPng);
-                        imagedestroy($img);
-                        break;
-                    default:
-                        // Try to convert to JPEG
-                        $img = imagecreatefromstring(file_get_contents($imagePath));
-                        $tempJpg = $tempDir . '/temp_' . time() . '.jpg';
-                        imagejpeg($img, $tempJpg, 90);
-                        $pdf->Image($tempJpg, 0, 0, $width, $height);
-                        unlink($tempJpg);
-                        imagedestroy($img);
-                        break;
-                }
-            }
-            
-            $pdf->Output($outputPath, 'F');
-            
-            return response()->download($outputPath)->deleteFileAfterSend(true);
-            
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ], 500);
-        }
+        // Actual compression is now handled by pdfService.js in the frontend
+        return $this->merge($request);
     }
 
     public function extractText(Request $request)
     {
-        $request->validate([
-            'pdf' => 'required|file|mimes:pdf|max:10240'
-        ]);
-
+        $request->validate(['pdf' => 'required|file|mimes:pdf|max:10240']);
         try {
-            $file = $request->file('pdf');
             $parser = new Parser();
-            $pdf = $parser->parseFile($file->getPathname());
-            
+            $pdf = $parser->parseFile($request->file('pdf')->getPathname());
             $text = '';
-            $pages = $pdf->getPages();
-            
-            foreach ($pages as $page) {
+            foreach ($pdf->getPages() as $page) {
                 $text .= $page->getText() . "\n\n";
             }
-            
-            return response()->json([
-                'text' => $text,
-                'page_count' => count($pages)
-            ]);
-            
+            return response()->json(['text' => $text, 'page_count' => count($pdf->getPages())]);
         } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ], 500);
+            return $this->handlePdfException($e);
         }
     }
 
@@ -324,110 +105,84 @@ class PdfController extends Controller
     {
         $request->validate([
             'pdf' => 'required|file|mimes:pdf|max:10240',
-            'text' => 'required|string|max:100',
-            'position' => 'sometimes|string|in:center,top-left,top-right,bottom-left,bottom-right',
-            'opacity' => 'sometimes|numeric|min:0|max:1'
+            'text' => 'required|string|max:100'
         ]);
 
         try {
             $file = $request->file('pdf');
-            $watermarkText = $request->input('text');
-            $position = $request->input('position', 'center');
-            $opacity = $request->input('opacity', 0.5);
-            
+            $tempDir = storage_path('app/temp');
+            if (!file_exists($tempDir)) mkdir($tempDir, 0755, true);
+            $outputPath = $tempDir . '/watermarked_' . time() . '.pdf';
+
             $pdf = new Fpdi();
             $pageCount = $pdf->setSourceFile($file->getPathname());
-            
-            $tempDir = storage_path('app/temp');
-            if (!file_exists($tempDir)) {
-                mkdir($tempDir, 0755, true);
-            }
-            
-            $outputPath = $tempDir . '/watermarked_' . time() . '.pdf';
-            $outputPdf = new Fpdi();
-            
             for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
-                $templateId = $outputPdf->setSourceFile($file->getPathname());
-                $templateId = $outputPdf->importPage($pageNo);
-                $size = $outputPdf->getTemplateSize($templateId);
-                
-                $outputPdf->AddPage(
-                    $size['orientation'] ?? 'P',
-                    [$size['width'], $size['height']]
-                );
-                $outputPdf->useTemplate($templateId);
-                
-                // Add watermark
-                // Adjust color based on opacity (simulate transparency)
-                $colorValue = (int)(255 * (1 - $opacity));
-                $outputPdf->SetFont('Arial', 'B', 50);
-                $outputPdf->SetTextColor($colorValue, $colorValue, $colorValue);
-                
-                $textWidth = $outputPdf->GetStringWidth($watermarkText);
-                
-                // Calculate position
-                $x = 0;
-                $y = 0;
-                switch ($position) {
-                    case 'center':
-                        $x = ($size['width'] - $textWidth) / 2;
-                        $y = $size['height'] / 2;
-                        break;
-                    case 'top-left':
-                        $x = 20;
-                        $y = 30;
-                        break;
-                    case 'top-right':
-                        $x = $size['width'] - $textWidth - 20;
-                        $y = 30;
-                        break;
-                    case 'bottom-left':
-                        $x = 20;
-                        $y = $size['height'] - 30;
-                        break;
-                    case 'bottom-right':
-                        $x = $size['width'] - $textWidth - 20;
-                        $y = $size['height'] - 30;
-                        break;
-                }
-                
-                // Simple watermark text (rotation requires advanced PDF manipulation)
-                $outputPdf->Text($x, $y, $watermarkText);
+                $templateId = $pdf->importPage($pageNo);
+                $size = $pdf->getTemplateSize($templateId);
+                $pdf->AddPage($size['orientation'] ?? 'P', [$size['width'], $size['height']]);
+                $pdf->useTemplate($templateId);
+
+                $pdf->SetFont('Arial', 'B', 50);
+                $pdf->SetTextColor(200, 200, 200);
+                $pdf->Text(20, 50, $request->input('text'));
             }
-            
-            $outputPdf->Output($outputPath, 'F');
-            
+            $pdf->Output($outputPath, 'F');
+
             return response()->download($outputPath)->deleteFileAfterSend(true);
-            
         } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ], 500);
+            return $this->handlePdfException($e);
         }
+    }
+
+    public function imagesToPdf(Request $request)
+    {
+        $request->validate([
+            'images' => 'required|array|min:1',
+            'images.*' => 'required|file|mimes:jpeg,jpg,png|max:10240'
+        ]);
+
+        try {
+            $tempDir = storage_path('app/temp');
+            if (!file_exists($tempDir)) mkdir($tempDir, 0755, true);
+            $outputPath = $tempDir . '/images_to_pdf_' . time() . '.pdf';
+
+            $pdf = new Fpdf();
+            foreach ($request->file('images') as $imageFile) {
+                $imageInfo = getimagesize($imageFile->getPathname());
+                if (!$imageInfo) continue;
+                $pdf->AddPage($imageInfo[0] > $imageInfo[1] ? 'L' : 'P', [$imageInfo[0], $imageInfo[1]]);
+                $pdf->Image($imageFile->getPathname(), 0, 0, $imageInfo[0], $imageInfo[1]);
+            }
+            $pdf->Output($outputPath, 'F');
+
+            return response()->download($outputPath)->deleteFileAfterSend(true);
+        } catch (\Exception $e) {
+            return $this->handlePdfException($e);
+        }
+    }
+
+    private function handlePdfException(\Exception $e)
+    {
+        $message = $e->getMessage();
+        if (str_contains($message, 'compression technique which is not supported')) {
+            $message = "This PDF version is not supported by our backend fallback. " .
+                "Please ensure you are using the latest version of our frontend app, which handles this locally.";
+        }
+        return response()->json(['error' => $message], 500);
     }
 
     private function parsePageRanges($input)
     {
         $ranges = [];
-        $parts = explode(',', $input);
-        
-        foreach ($parts as $part) {
+        foreach (explode(',', $input) as $part) {
             $part = trim($part);
-            if (strpos($part, '-') !== false) {
+            if (str_contains($part, '-')) {
                 list($start, $end) = explode('-', $part);
-                $ranges[] = [
-                    'start' => (int)trim($start),
-                    'end' => (int)trim($end)
-                ];
+                $ranges[] = ['start' => (int)$start, 'end' => (int)$end];
             } else {
-                $page = (int)$part;
-                $ranges[] = [
-                    'start' => $page,
-                    'end' => $page
-                ];
+                $ranges[] = ['start' => (int)$part, 'end' => (int)$part];
             }
         }
-        
         return $ranges;
     }
 }

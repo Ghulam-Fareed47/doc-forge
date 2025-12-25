@@ -247,6 +247,7 @@ function clearMessages() {
     successMessage.value = ''
     errorMessage.value = ''
 }
+import { pdfService } from '@/services/pdfService'
 
 async function mergePdfs() {
     clearMessages()
@@ -257,40 +258,18 @@ async function mergePdfs() {
     }
 
     isLoading.value = true
-    progressText.value = 'Uploading files...'
+    progressText.value = 'Preparing files...'
 
     try {
-        const formData = new FormData()
-        selectedFiles.value.forEach((file, index) => {
-            formData.append(`pdfs[${index}]`, file)
-        })
+        progressText.value = 'Merging PDFs in browser...'
 
-        progressText.value = 'Processing PDFs...'
+        // Using frontend logic for 100% free processing
+        const mergedPdfData = await pdfService.mergePdfs(selectedFiles.value)
 
-        const response = await fetch('http://localhost:8000/api/merge-pdfs', {
-            method: 'POST',
-            body: formData,
-            headers: { 'Accept': 'application/json' }
-        })
+        progressText.value = 'Saving...'
+        pdfService.download(mergedPdfData, `merged-document-${Date.now()}.pdf`)
 
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}))
-            throw new Error(errorData.message || 'Failed to merge PDFs')
-        }
-
-        progressText.value = 'Downloading...'
-
-        const blob = await response.blob()
-        const url = window.URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = `merged-document-${Date.now()}.pdf`
-        document.body.appendChild(a)
-        a.click()
-        document.body.removeChild(a)
-        window.URL.revokeObjectURL(url)
-
-        showSuccess(`Successfully merged ${selectedFiles.value.length} PDFs! Download started.`)
+        showSuccess(`Successfully merged ${selectedFiles.value.length} PDFs locally!`)
 
         setTimeout(() => {
             selectedFiles.value = []

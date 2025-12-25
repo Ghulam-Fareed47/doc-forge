@@ -14,8 +14,8 @@ class MergePdfRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'files' => 'required|array|min:2',
-            'files.*' => 'required|file|mimes:pdf|max:10240', // 10MB max per file
+            'pdfs' => 'required|array|min:2',
+            'pdfs.*' => 'required|file|mimes:pdf|max:10240', // 10MB max per file
         ];
     }
 }

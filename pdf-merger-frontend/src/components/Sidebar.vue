@@ -79,7 +79,6 @@ const tools = [
   { id: 'merge', name: 'Merge PDF', icon: 'fas fa-file-pdf', path: '/merge-pdf' },
   { id: 'split', name: 'Split PDF', icon: 'fas fa-cut', path: '/split-pdf' },
   { id: 'compress', name: 'Compress PDF', icon: 'fas fa-compress', path: '/compress-pdf' },
-  { id: 'pdf-to-images', name: 'PDF to Images', icon: 'fas fa-image', path: '/pdf-to-images' },
   { id: 'images-to-pdf', name: 'Images to PDF', icon: 'fas fa-file-pdf', path: '/images-to-pdf' },
   { id: 'extract-text', name: 'Extract Text', icon: 'fas fa-file-alt', path: '/extract-text' },
   { id: 'watermark', name: 'Watermark PDF', icon: 'fas fa-tint', path: '/watermark-pdf' }

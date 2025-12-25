@@ -6,6 +6,7 @@ use App\Repositories\PdfRepository;
 use setasign\Fpdi\Fpdi;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Log;
 
 class PdfService
 {
@@ -24,23 +25,39 @@ class PdfService
      */
     public function mergePdfs(array $files)
     {
-        $pdf = new Fpdi();
+        Log::info('Starting PDF merge service', ['file_count' => count($files)]);
 
-        foreach ($files as $file) {
-            $path = $file->getRealPath();
-            $pageCount = $pdf->setSourceFile($path);
+        try {
+            $merger = new \iio\libmergepdf\Merger();
+            Log::debug('LibMergePDF Merger instance created');
 
-            for ($i = 1; $i <= $pageCount; $i++) {
-                $tplId = $pdf->importPage($i);
-                $size = $pdf->getTemplateSize($tplId);
-                $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
-                $pdf->useTemplate($tplId);
+            foreach ($files as $index => $file) {
+                $path = $file->getRealPath();
+                $merger->addFile($path);
+
+                Log::debug("File added to merger", [
+                    'file_index' => $index,
+                    'file_name' => $file->getClientOriginalName()
+                ]);
             }
+
+            Log::debug('Generating merged PDF');
+            $output = $merger->merge();
+
+            Log::info('PDF merge service completed', [
+                'output_size' => strlen($output)
+            ]);
+
+            $this->pdfRepository->saveOperationMetadata('merge', ['count' => count($files)]);
+
+            return $output;
+        } catch (\Exception $e) {
+            Log::error('PDF merge service failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
         }
-
-        $this->pdfRepository->saveOperationMetadata('merge', ['count' => count($files)]);
-
-        return $pdf->Output('S'); // Return as string
     }
 
     /**

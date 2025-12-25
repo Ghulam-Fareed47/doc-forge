@@ -133,6 +133,8 @@ function clearFile() {
   clearMessages()
 }
 
+import { pdfService } from '@/services/pdfService'
+
 async function compressPdf() {
   clearMessages()
 
@@ -145,39 +147,22 @@ async function compressPdf() {
   progressText.value = 'Compressing...'
 
   try {
-    const formData = new FormData()
-    formData.append('pdf', selectedFile.value)
-    formData.append('quality', quality.value)
+    progressText.value = 'Processing in browser...'
+    
+    // Using frontend logic for 100% free processing
+    const compressedData = await pdfService.compressPdf(selectedFile.value)
 
-    const response = await fetch('http://localhost:8000/api/compress-pdf', {
-      method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
-    })
+    progressText.value = 'Saving...'
+    pdfService.download(compressedData, `compressed-document-${Date.now()}.pdf`)
 
-    if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(errorData.error || 'Failed to compress PDF')
-    }
-
-    progressText.value = 'Downloading...'
-    const blob = await response.blob()
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `compressed-document-${Date.now()}.pdf`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    window.URL.revokeObjectURL(url)
-
-    showSuccess('PDF compressed successfully! Download started.')
+    showSuccess('PDF processed successfully! Download started.')
     setTimeout(() => {
       clearFile()
     }, 2000)
 
   } catch (error) {
-    showError(`Failed to compress PDF: ${error.message}`)
+    console.error('Error:', error)
+    showError(`Failed to process PDF: ${error.message}`)
   } finally {
     isLoading.value = false
     progressText.value = ''

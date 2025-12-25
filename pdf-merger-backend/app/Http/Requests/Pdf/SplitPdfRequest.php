@@ -14,7 +14,7 @@ class SplitPdfRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => 'required|file|mimes:pdf|max:20480', // 20MB max
+            'pdf' => 'required|file|mimes:pdf|max:20480', // 20MB max
             'pages' => ['required', 'string', 'regex:/^(\d+(-\d+)?)(,\d+(-\d+)?)*$/'], // e.g. "1,3,5-7"
         ];
     }

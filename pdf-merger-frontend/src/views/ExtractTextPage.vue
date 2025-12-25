@@ -141,6 +141,8 @@ function clearFile() {
   clearMessages()
 }
 
+import { pdfService } from '@/services/pdfService'
+
 async function extractText() {
   clearMessages()
 
@@ -153,26 +155,17 @@ async function extractText() {
   progressText.value = 'Extracting text...'
 
   try {
-    const formData = new FormData()
-    formData.append('pdf', selectedFile.value)
+    progressText.value = 'Processing in browser...'
+    
+    // Using frontend logic for 100% free processing
+    const data = await pdfService.extractText(selectedFile.value)
 
-    const response = await fetch('http://localhost:8000/api/extract-text', {
-      method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
-    })
-
-    if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(errorData.error || 'Failed to extract text')
-    }
-
-    const data = await response.json()
     extractedText.value = data.text
-    pageCount.value = data.page_count || 0
-    showSuccess('Text extracted successfully!')
+    pageCount.value = data.pageCount || 0
+    showSuccess('Text extracted successfully locally!')
 
   } catch (error) {
+    console.error('Error:', error)
     showError(`Failed to extract text: ${error.message}`)
   } finally {
     isLoading.value = false
