@@ -88,6 +88,7 @@
     </section>
 
     <FooterSection />
+    <LimitModal :isOpen="showLimitModal" @close="showLimitModal = false" />
   </div>
 </template>
 
@@ -135,12 +136,23 @@ function clearFile() {
 }
 
 import { pdfService } from '@/services/pdfService'
+import { usageService } from '@/services/usageService'
+import LimitModal from '@/components/LimitModal.vue'
+
+const showLimitModal = ref(false)
 
 async function splitPdf() {
   clearMessages()
 
   if (!selectedFile.value || !pageRange.value) {
     showError('Please select a PDF file and enter page range')
+    return
+  }
+
+  // Check usage limits
+  const canUse = await usageService.canUseTool()
+  if (!canUse) {
+    showLimitModal.value = true
     return
   }
 
@@ -155,6 +167,9 @@ async function splitPdf() {
 
     progressText.value = 'Saving...'
     pdfService.download(splitPdfData, `split-document-${Date.now()}.pdf`)
+    
+    // Log usage
+    await usageService.logUsage('split', splitPdfData.byteLength)
 
     showSuccess('PDF split successfully locally! Download started.')
     setTimeout(() => {

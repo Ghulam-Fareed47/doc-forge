@@ -89,6 +89,7 @@
 
 
     <FooterSection />
+    <LimitModal :isOpen="showLimitModal" @close="showLimitModal = false" />
   </div>
 </template>
 
@@ -134,12 +135,23 @@ function clearFile() {
 }
 
 import { pdfService } from '@/services/pdfService'
+import { usageService } from '@/services/usageService'
+import LimitModal from '@/components/LimitModal.vue'
+
+const showLimitModal = ref(false)
 
 async function compressPdf() {
   clearMessages()
 
   if (!selectedFile.value) {
     showError('Please select a PDF file')
+    return
+  }
+
+  // Check usage limits
+  const canUse = await usageService.canUseTool()
+  if (!canUse) {
+    showLimitModal.value = true
     return
   }
 
@@ -154,6 +166,9 @@ async function compressPdf() {
 
     progressText.value = 'Saving...'
     pdfService.download(compressedData, `compressed-document-${Date.now()}.pdf`)
+    
+    // Log usage
+    await usageService.logUsage('compress', compressedData.byteLength)
 
     showSuccess('PDF processed successfully! Download started.')
     setTimeout(() => {

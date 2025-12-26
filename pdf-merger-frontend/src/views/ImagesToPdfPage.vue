@@ -92,6 +92,7 @@
 
 
     <FooterSection />
+    <LimitModal :isOpen="showLimitModal" @close="showLimitModal = false" />
   </div>
 </template>
 
@@ -143,12 +144,23 @@ function clearFiles() {
 }
 
 import { pdfService } from '@/services/pdfService'
+import { usageService } from '@/services/usageService'
+import LimitModal from '@/components/LimitModal.vue'
+
+const showLimitModal = ref(false)
 
 async function convertToPdf() {
   clearMessages()
 
   if (selectedFiles.value.length === 0) {
     showError('Please select at least one image file')
+    return
+  }
+
+  // Check usage limits
+  const canUse = await usageService.canUseTool()
+  if (!canUse) {
+    showLimitModal.value = true
     return
   }
 
@@ -163,6 +175,9 @@ async function convertToPdf() {
 
     progressText.value = 'Saving...'
     pdfService.download(pdfData, `images-to-pdf-${Date.now()}.pdf`)
+    
+    // Log usage
+    await usageService.logUsage('images-to-pdf', pdfData.byteLength)
 
     showSuccess('Images converted to PDF successfully locally! Download started.')
     setTimeout(() => {

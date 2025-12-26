@@ -8,6 +8,9 @@ import CompressPdfPage from '../views/CompressPdfPage.vue'
 import ImagesToPdfPage from '../views/ImagesToPdfPage.vue'
 import ExtractTextPage from '../views/ExtractTextPage.vue'
 import WatermarkPdfPage from '../views/WatermarkPdfPage.vue'
+import LoginPage from '../views/auth/LoginPage.vue'
+import RegisterPage from '../views/auth/RegisterPage.vue'
+import AdminDashboardPage from '../views/AdminDashboardPage.vue'
 
 import { useLoader } from '../composables/useLoader'
 
@@ -58,6 +61,21 @@ const router = createRouter({
       path: '/watermark-pdf',
       name: 'watermark-pdf',
       component: WatermarkPdfPage
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginPage
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: RegisterPage
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: AdminDashboardPage
     }
   ],
   scrollBehavior(to, from, savedPosition) {

@@ -32,6 +32,29 @@
             {{ themeStore.isDark ? 'Light' : 'Dark' }}
           </button>
 
+          <!-- Auth Buttons -->
+          <div v-if="!authStore.isLoggedIn" class="hidden md:flex items-center gap-2">
+            <router-link to="/login"
+              class="text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2">
+              Log in
+            </router-link>
+            <router-link to="/register"
+              class="rounded-xl bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 transition-all">
+              Sign up
+            </router-link>
+          </div>
+          <div v-else class="hidden md:flex items-center gap-2">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300 mr-2">
+              {{ authStore.user?.name }}
+            </span>
+            <router-link to="/admin" class="text-sm font-semibold text-indigo-600 hover:text-indigo-500 px-2 py-1">
+              Dashboard
+            </router-link>
+            <button @click="handleLogout" class="text-sm font-semibold text-red-600 hover:text-red-500 px-2 py-1">
+              Logout
+            </button>
+          </div>
+
           <!-- Mobile Menu Button -->
           <button @click="mobileMenuOpen = !mobileMenuOpen"
             class="md:hidden inline-flex items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-gray-700 dark:hover:bg-gray-700">
@@ -68,9 +91,18 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useThemeStore } from '../stores/theme'
+import { useAuthStore } from '../stores/auth'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const route = useRoute()
+const authStore = useAuthStore()
 const themeStore = useThemeStore()
+
+async function handleLogout() {
+  await authStore.logout()
+  router.push('/login')
+}
 const mobileMenuOpen = ref(false)
 
 const navLinks = [

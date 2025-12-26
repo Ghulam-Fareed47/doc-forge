@@ -91,6 +91,7 @@
 
 
     <FooterSection />
+    <LimitModal :isOpen="showLimitModal" @close="showLimitModal = false" />
   </div>
 </template>
 
@@ -142,12 +143,23 @@ function clearFile() {
 }
 
 import { pdfService } from '@/services/pdfService'
+import { usageService } from '@/services/usageService'
+import LimitModal from '@/components/LimitModal.vue'
+
+const showLimitModal = ref(false)
 
 async function extractText() {
   clearMessages()
 
   if (!selectedFile.value) {
     showError('Please select a PDF file')
+    return
+  }
+
+  // Check usage limits
+  const canUse = await usageService.canUseTool()
+  if (!canUse) {
+    showLimitModal.value = true
     return
   }
 
@@ -162,6 +174,10 @@ async function extractText() {
 
     extractedText.value = data.text
     pageCount.value = data.pageCount || 0
+    
+    // Log usage
+    await usageService.logUsage('extract-text', selectedFile.value.size)
+
     showSuccess('Text extracted successfully locally!')
 
   } catch (error) {

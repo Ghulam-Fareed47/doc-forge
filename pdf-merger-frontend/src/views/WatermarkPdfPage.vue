@@ -111,6 +111,7 @@
 
 
     <FooterSection />
+    <LimitModal :isOpen="showLimitModal" @close="showLimitModal = false" />
   </div>
 </template>
 
@@ -162,12 +163,23 @@ function clearFile() {
 }
 
 import { pdfService } from '@/services/pdfService'
+import { usageService } from '@/services/usageService'
+import LimitModal from '@/components/LimitModal.vue'
+
+const showLimitModal = ref(false)
 
 async function addWatermark() {
   clearMessages()
 
   if (!selectedFile.value || !watermarkText.value) {
     showError('Please select a PDF file and enter watermark text')
+    return
+  }
+
+  // Check usage limits
+  const canUse = await usageService.canUseTool()
+  if (!canUse) {
+    showLimitModal.value = true
     return
   }
 
@@ -187,6 +199,9 @@ async function addWatermark() {
 
     progressText.value = 'Saving...'
     pdfService.download(watermarkedData, `watermarked-document-${Date.now()}.pdf`)
+    
+    // Log usage
+    await usageService.logUsage('watermark', watermarkedData.byteLength)
 
     showSuccess('Watermark added successfully locally! Download started.')
     setTimeout(() => {

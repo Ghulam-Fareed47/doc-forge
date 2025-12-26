@@ -1,14 +1,12 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\PdfController as ApiPdfController;
-use App\Http\Controllers\PdfController;
+use App\Http\Controllers\UsageController;
 
-Route::post('/merge-pdfs', [ApiPdfController::class, 'merge']);
-Route::post('/split-pdf', [ApiPdfController::class, 'split']);
-Route::post('/compress-pdf', [PdfController::class, 'compress']);
-Route::post('/pdf-to-images', [PdfController::class, 'pdfToImages']);
-Route::post('/images-to-pdf', [PdfController::class, 'imagesToPdf']);
-Route::post('/extract-text', [PdfController::class, 'extractText']);
-Route::post('/watermark-pdf', [PdfController::class, 'watermark']);
-Route::get('/health', fn() => response()->json(['status' => 'ok']));
+Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::post('/usage/log', [UsageController::class, 'log']);
+Route::middleware(['auth:sanctum'])->get('/usage/logs', [UsageController::class, 'index']);

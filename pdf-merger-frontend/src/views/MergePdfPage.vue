@@ -154,6 +154,7 @@
         </section>
 
         <FooterSection />
+        <LimitModal :isOpen="showLimitModal" @close="showLimitModal = false" />
     </div>
 </template>
 
@@ -248,12 +249,23 @@ function clearMessages() {
     errorMessage.value = ''
 }
 import { pdfService } from '@/services/pdfService'
+import { usageService } from '@/services/usageService'
+import LimitModal from '@/components/LimitModal.vue'
+
+const showLimitModal = ref(false)
 
 async function mergePdfs() {
     clearMessages()
 
     if (selectedFiles.value.length < 2) {
         showError('Please select at least 2 PDF files to merge')
+        return
+    }
+
+    // Check usage limits
+    const canUse = await usageService.canUseTool()
+    if (!canUse) {
+        showLimitModal.value = true
         return
     }
 
@@ -268,6 +280,9 @@ async function mergePdfs() {
 
         progressText.value = 'Saving...'
         pdfService.download(mergedPdfData, `merged-document-${Date.now()}.pdf`)
+        
+        // Log usage
+        await usageService.logUsage('merge', mergedPdfData.byteLength)
 
         showSuccess(`Successfully merged ${selectedFiles.value.length} PDFs locally!`)
 
