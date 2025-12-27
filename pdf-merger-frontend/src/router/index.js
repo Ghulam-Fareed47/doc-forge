@@ -11,6 +11,10 @@ import WatermarkPdfPage from '../views/WatermarkPdfPage.vue'
 import LoginPage from '../views/auth/LoginPage.vue'
 import RegisterPage from '../views/auth/RegisterPage.vue'
 import AdminDashboardPage from '../views/AdminDashboardPage.vue'
+import AdminUsersPage from '../views/admin/AdminUsersPage.vue'
+import AdminBlogsPage from '../views/admin/AdminBlogsPage.vue'
+import AdminLogsPage from '../views/admin/AdminLogsPage.vue'
+import AdminSettingsPage from '../views/admin/AdminSettingsPage.vue'
 
 import { useLoader } from '../composables/useLoader'
 
@@ -72,10 +76,36 @@ const router = createRouter({
       name: 'register',
       component: RegisterPage
     },
+    // Admin Routes
     {
       path: '/admin',
       name: 'admin',
       component: AdminDashboardPage
+    },
+    {
+      path: '/admin/dashboard',
+      name: 'admin-dashboard',
+      component: AdminDashboardPage
+    },
+    {
+      path: '/admin/users',
+      name: 'admin-users',
+      component: AdminUsersPage
+    },
+    {
+      path: '/admin/blogs',
+      name: 'admin-blogs',
+      component: AdminBlogsPage
+    },
+    {
+      path: '/admin/logs',
+      name: 'admin-logs',
+      component: AdminLogsPage
+    },
+    {
+      path: '/admin/settings',
+      name: 'admin-settings',
+      component: AdminSettingsPage
     }
   ],
   scrollBehavior(to, from, savedPosition) {

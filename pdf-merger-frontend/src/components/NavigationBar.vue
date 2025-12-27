@@ -43,16 +43,50 @@
               Sign up
             </router-link>
           </div>
-          <div v-else class="hidden md:flex items-center gap-2">
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-300 mr-2">
-              {{ authStore.user?.name }}
-            </span>
-            <router-link to="/admin" class="text-sm font-semibold text-indigo-600 hover:text-indigo-500 px-2 py-1">
-              Dashboard
-            </router-link>
-            <button @click="handleLogout" class="text-sm font-semibold text-red-600 hover:text-red-500 px-2 py-1">
-              Logout
-            </button>
+          <div v-else class="hidden md:flex items-center gap-2 relative">
+            <!-- Avatar Dropdown -->
+            <div class="relative" ref="dropdownRef">
+              <button @click="userDropdownOpen = !userDropdownOpen"
+                class="flex items-center gap-2 px-2 py-1 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
+                <div
+                  class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">
+                  {{ userInitials }}
+                </div>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ authStore.user?.name }}</span>
+                <i class="fas fa-chevron-down text-xs text-gray-400 transition-transform"
+                  :class="{ 'rotate-180': userDropdownOpen }"></i>
+              </button>
+
+              <!-- Dropdown Menu -->
+              <transition enter-active-class="transition duration-100 ease-out"
+                enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
+                leave-active-class="transition duration-75 ease-in" leave-from-class="transform scale-100 opacity-100"
+                leave-to-class="transform scale-95 opacity-0">
+                <div v-if="userDropdownOpen"
+                  class="absolute right-0 mt-2 w-56 rounded-xl bg-white dark:bg-gray-800 shadow-xl ring-1 ring-black/5 dark:ring-white/10 py-2 z-50">
+                  <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
+                    <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ authStore.user?.name }}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ authStore.user?.email }}</p>
+                  </div>
+                  <router-link v-if="authStore.user?.is_admin" to="/admin" @click="userDropdownOpen = false"
+                    class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                    <i class="fas fa-chart-pie w-4 text-center text-indigo-500"></i>
+                    Dashboard
+                  </router-link>
+                  <router-link v-if="authStore.user?.is_admin" to="/admin/settings" @click="userDropdownOpen = false"
+                    class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                    <i class="fas fa-cog w-4 text-center text-gray-400"></i>
+                    Settings
+                  </router-link>
+                  <div class="border-t border-gray-100 dark:border-gray-700 my-1"></div>
+                  <button @click="handleLogout"
+                    class="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 w-full transition-colors">
+                    <i class="fas fa-sign-out-alt w-4 text-center"></i>
+                    Logout
+                  </button>
+                </div>
+              </transition>
+            </div>
           </div>
 
           <!-- Mobile Menu Button -->
@@ -74,12 +108,35 @@
             {{ link.name }}
           </router-link>
 
+          <!-- Admin Links for Mobile -->
+          <template v-if="authStore.isLoggedIn && authStore.user?.is_admin">
+            <router-link to="/admin" @click="mobileMenuOpen = false"
+              class="inline-flex items-center rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-white"
+              :class="isActive('/admin') ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white' : 'text-gray-700 dark:text-gray-300'">
+              <i class="fas fa-chart-pie mr-3 w-5 text-center text-indigo-500"></i>
+              Dashboard
+            </router-link>
+            <router-link to="/admin/settings" @click="mobileMenuOpen = false"
+              class="inline-flex items-center rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-white"
+              :class="isActive('/admin/settings') ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white' : 'text-gray-700 dark:text-gray-300'">
+              <i class="fas fa-cog mr-3 w-5 text-center text-gray-400"></i>
+              Settings
+            </router-link>
+          </template>
+
           <!-- Mobile Theme Toggle -->
           <button @click="themeStore.toggleTheme()"
             class="inline-flex items-center rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-white text-gray-700 dark:text-gray-300">
             <i v-if="themeStore.isDark" class="fas fa-sun mr-3 w-5 text-center text-yellow-500"></i>
             <i v-else class="fas fa-moon mr-3 w-5 text-center text-indigo-500"></i>
-            {{ themeStore.isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode' }}
+            {{ themeStore.isDark ? 'Light' : 'Dark' }}
+          </button>
+
+          <!-- Logout for Mobile -->
+          <button v-if="authStore.isLoggedIn" @click="handleLogout"
+            class="inline-flex items-center rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 text-red-600">
+            <i class="fas fa-sign-out-alt mr-3 w-5 text-center"></i>
+            Logout
           </button>
         </div>
       </div>
@@ -88,7 +145,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useThemeStore } from '../stores/theme'
 import { useAuthStore } from '../stores/auth'
@@ -99,11 +156,35 @@ const route = useRoute()
 const authStore = useAuthStore()
 const themeStore = useThemeStore()
 
+const mobileMenuOpen = ref(false)
+const userDropdownOpen = ref(false)
+const dropdownRef = ref(null)
+
+const userInitials = computed(() => {
+  const name = authStore.user?.name || 'User'
+  return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
+})
+
+// Close dropdown when clicking outside
+function handleClickOutside(event) {
+  if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
+    userDropdownOpen.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
+
 async function handleLogout() {
+  userDropdownOpen.value = false
   await authStore.logout()
   router.push('/login')
 }
-const mobileMenuOpen = ref(false)
 
 const navLinks = [
   { name: 'Home', path: '/', icon: 'fas fa-home' },

@@ -20,10 +20,13 @@ class AdminSeeder extends Seeder
                 'email' => 'admin@pdfmerger.com',
                 'password' => Hash::make('password'),
                 'email_verified_at' => now(),
+                'is_admin' => true,
             ]);
             $this->command->info('Admin user created: admin@pdfmerger.com / password');
         } else {
-            $this->command->info('Admin user already exists.');
+            // Update existing admin to ensure is_admin is true
+            User::where('email', 'admin@pdfmerger.com')->update(['is_admin' => true]);
+            $this->command->info('Admin user already exists. Updated is_admin to true.');
         }
     }
 }
