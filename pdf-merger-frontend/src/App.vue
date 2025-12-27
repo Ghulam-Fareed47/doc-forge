@@ -10,7 +10,7 @@ const authStore = useAuthStore()
 const appError = ref(null)
 
 onMounted(() => {
-  authStore.initialize()
+  // Auth initialization moved to main.js for better synchronization
 })
 
 onErrorCaptured((err) => {

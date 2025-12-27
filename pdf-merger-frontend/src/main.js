@@ -8,9 +8,15 @@ const app = createApp(App)
 const pinia = createPinia()
 
 app.use(pinia)
-app.use(router)
 
-app.mount('#app')
+// Initialize auth before mounting
+import { useAuthStore } from './stores/auth'
+const authStore = useAuthStore()
+
+authStore.initialize().then(() => {
+  app.use(router)
+  app.mount('#app')
+})
 
 // Initialize theme after app mounts
 import { useThemeStore } from './stores/theme'
