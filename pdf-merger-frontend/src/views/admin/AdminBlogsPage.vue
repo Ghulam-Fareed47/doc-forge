@@ -3,8 +3,8 @@
         <div class="space-y-6">
             <div class="flex items-center justify-between">
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Blog Management</h2>
-                <button @click="openModal()"
-                    class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm transition-colors">
+                <button @click="Swal.fire('Coming Soon', 'This feature is currently in development.', 'info')"
+                    class="px-4 py-2 bg-indigo-600 opacity-50 cursor-not-allowed text-white rounded-lg text-sm transition-colors">
                     <i class="fas fa-plus mr-2"></i>New Blog
                 </button>
             </div>
@@ -14,14 +14,15 @@
                 <i class="fas fa-newspaper text-5xl text-gray-300 dark:text-gray-600 mb-4"></i>
                 <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No Blog Posts Yet</h3>
                 <p class="text-gray-500 dark:text-gray-400 mb-4">Create your first blog post to get started.</p>
-                <button @click="openModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg">
+                <button @click="Swal.fire('Coming Soon', 'This feature is currently in development.', 'info')"
+                    class="px-4 py-2 bg-indigo-600 opacity-50 cursor-not-allowed text-white rounded-lg">
                     Create First Post
                 </button>
             </div>
 
             <div v-else class="grid gap-4">
                 <div v-for="blog in blogs" :key="blog.id"
-                    class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex justify-between items-start">
+                    class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex justify-between items-start opacity-75">
                     <div class="flex-1">
                         <div class="flex items-center gap-3 mb-2">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ blog.title }}</h3>
@@ -34,15 +35,38 @@
                         <p class="text-xs text-gray-400">By {{ blog.author?.name }} · {{ formatDate(blog.created_at) }}
                         </p>
                     </div>
-                    <div class="flex gap-2 ml-4">
-                        <button @click="openModal(blog)"
-                            class="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button @click="deleteBlog(blog)"
-                            class="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                </div>
+            </div>
+
+            <!-- Coming Soon Overlay -->
+            <div class="relative">
+                <div class="absolute inset-0 bg-white/10 dark:bg-gray-900/10 backdrop-blur-[2px] z-10 rounded-2xl">
+                </div>
+                <div class="bg-indigo-600 text-white p-8 rounded-2xl shadow-xl relative z-20 overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-rocket text-8xl"></i>
+                    </div>
+                    <div class="max-w-xl">
+                        <div
+                            class="inline-flex items-center gap-2 px-3 py-1 bg-white/20 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+                            <i class="fas fa-clock"></i> In Development
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3">Blog Management is Coming Soon!</h3>
+                        <p class="text-indigo-100 mb-6 leading-relaxed">
+                            We are working hard to bring you a powerful blog management system.
+                            Soon you'll be able to create, edit, and schedule posts directly from here.
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="flex items-center gap-2 text-sm font-medium">
+                                <i class="fas fa-check-circle text-indigo-300"></i> Rich Text Editor
+                            </div>
+                            <div class="flex items-center gap-2 text-sm font-medium">
+                                <i class="fas fa-check-circle text-indigo-300"></i> SEO Tools
+                            </div>
+                            <div class="flex items-center gap-2 text-sm font-medium">
+                                <i class="fas fa-check-circle text-indigo-300"></i> Media Library
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

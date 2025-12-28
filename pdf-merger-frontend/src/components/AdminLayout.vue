@@ -12,7 +12,7 @@
                         class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
                         <i class="fas fa-file-pdf text-white"></i>
                     </div>
-                    <span class="text-lg font-bold">PDF Admin</span>
+                    <span class="text-lg font-bold">DocForge Admin</span>
                 </div>
             </div>
 
@@ -84,6 +84,11 @@
                             class="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
                             <i class="fas fa-sync-alt"></i>
                         </button>
+                        <button @click="handleLogout"
+                            class="lg:hidden p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                            title="Logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
                     </div>
                 </div>
             </header>
@@ -132,7 +137,6 @@ const menuItems = [
     { name: 'Dashboard', path: '/admin', icon: 'fas fa-chart-pie' },
     { name: 'Users', path: '/admin/users', icon: 'fas fa-users' },
     { name: 'Blogs', path: '/admin/blogs', icon: 'fas fa-newspaper' },
-    { name: 'Usage Logs', path: '/admin/logs', icon: 'fas fa-history' },
     { name: 'Settings', path: '/admin/settings', icon: 'fas fa-cog' },
 ]
 
@@ -202,16 +206,24 @@ function refreshData() {
     color: #4b5563 !important;
 }
 
-.swal2-confirm.swal2-styled, 
+.swal2-confirm.swal2-styled,
 .swal2-cancel.swal2-styled {
     border-radius: 0.75rem !important;
     padding: 0.75rem 2rem !important;
     font-weight: 600 !important;
     font-size: 0.95rem !important;
-    /* Force white text visibility */
+    /* Force visibility in light mode */
     color: #ffffff !important;
+    background-color: #6366f1 !important;
+    /* Default indigo for confirm */
+    border: none !important;
     box-shadow: none !important;
     transition: all 0.2s ease !important;
+}
+
+.swal2-cancel.swal2-styled {
+    background-color: #6b7280 !important;
+    /* Default gray for cancel */
 }
 
 .swal2-confirm.swal2-styled:hover {

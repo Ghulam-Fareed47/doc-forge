@@ -12,7 +12,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="flex justify-between p-3 bg-gray-50 dark:bg-gray-900 rounded-xl">
                         <span class="text-gray-500 dark:text-gray-400">App Name</span>
-                        <span class="font-medium text-gray-900 dark:text-white">PDF Merger</span>
+                        <span class="font-medium text-gray-900 dark:text-white">DocForge</span>
                     </div>
                     <div class="flex justify-between p-3 bg-gray-50 dark:bg-gray-900 rounded-xl">
                         <span class="text-gray-500 dark:text-gray-400">Version</span>

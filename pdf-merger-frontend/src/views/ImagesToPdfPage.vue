@@ -6,10 +6,10 @@
     <section class="relative min-h-screen pt-32 pb-24 px-4">
       <div class="container mx-auto max-w-7xl">
         <div class="text-center mb-12">
-          <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
             Images to PDF
           </h1>
-          <p class="text-lg text-gray-600 dark:text-gray-400">
+          <p class="text-base text-gray-600 dark:text-gray-400">
             Convert image files to PDF.
           </p>
         </div>
@@ -89,8 +89,124 @@
       </div>
     </section>
 
+    <!-- How It Works Section -->
+    <section class="py-16 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
+      <div class="container mx-auto px-4 max-w-5xl">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3">How to Convert Images to PDF
+          </h2>
+          <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">Turn your photos into documents in three
+            simple steps
+          </p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center group">
+            <div
+              class="w-12 h-12 rounded-2xl bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+              <span class="text-xl font-bold">1</span>
+            </div>
+            <h3 class="text-base font-bold text-gray-900 dark:text-white mb-2">Select Images</h3>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Upload your JPG, PNG, or GIF files. You can select
+              multiple
+              images at once.</p>
+          </div>
+          <div class="text-center group">
+            <div
+              class="w-12 h-12 rounded-2xl bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+              <span class="text-xl font-bold">2</span>
+            </div>
+            <h3 class="text-base font-bold text-gray-900 dark:text-white mb-2">Review Gallery</h3>
+            <p class="text-xs text-gray-500 dark:text-gray-400">See your selected images in the list. Remove any
+              unwanted
+              photos before converting.</p>
+          </div>
+          <div class="text-center group">
+            <div
+              class="w-12 h-12 rounded-2xl bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+              <span class="text-xl font-bold">3</span>
+            </div>
+            <h3 class="text-base font-bold text-gray-900 dark:text-white mb-2">Merge to PDF</h3>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Click "Convert to PDF" and your images will be compiled
+              into
+              a single document locally.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool Features -->
+    <section class="py-16 bg-gray-50 dark:bg-slate-900">
+      <div class="container mx-auto px-4 max-w-5xl">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">High-Quality Image Conversion
+            </h2>
+            <div class="space-y-4">
+              <div v-for="(feature, index) in toolFeatures" :key="index" class="flex gap-4">
+                <div
+                  class="flex-shrink-0 w-8 h-8 rounded-lg bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 flex items-center justify-center">
+                  <i class="fas fa-check text-xs"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-gray-900 dark:text-white mb-1">{{ feature.title }}</h4>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">{{ feature.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="relative">
+            <div class="aspect-video rounded-2xl overflow-hidden shadow-2xl">
+              <img src="https://images.unsplash.com/photo-1542744173-8e41262d4e39?auto=format&fit=crop&q=80&w=800"
+                alt="Image to PDF Conversion" class="w-full h-full object-cover">
+            </div>
+            <div
+              class="absolute -bottom-4 -right-4 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 hidden sm:block">
+              <div class="flex items-center gap-2 mb-1">
+                <i class="fas fa-image text-pink-500 text-xs"></i>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Universal Format</span>
+              </div>
+              <div class="text-xs font-bold text-gray-900 dark:text-white">Supports JPG, PNG & more</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-white dark:bg-gray-900">
+      <div class="container mx-auto px-4 max-w-3xl">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3">Frequently Asked Questions</h2>
+          <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">Common questions about image to PDF
+            conversion
+          </p>
+        </div>
+        <div class="space-y-4">
+          <div v-for="(faq, index) in faqs" :key="index"
+            class="border border-gray-100 dark:border-gray-800 rounded-xl overflow-hidden hover:border-pink-200 dark:hover:border-pink-900 transition-colors">
+            <button @click="toggleFaq(index)"
+              class="w-full px-6 py-4 flex items-center justify-between text-left group">
+              <span
+                class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors">{{
+                  faq.question }}</span>
+              <i class="fas fa-chevron-down text-xs text-gray-400 transition-transform"
+                :class="{ 'rotate-180': faq.isOpen }"></i>
+            </button>
+            <transition enter-active-class="transition-all duration-300" enter-from-class="max-h-0 opacity-0"
+              enter-to-class="max-h-60 opacity-100" leave-active-class="transition-all duration-200"
+              leave-from-class="max-h-60 opacity-100" leave-to-class="max-h-0 opacity-0">
+              <div v-if="faq.isOpen" class="px-6 pb-4">
+                <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{{ faq.answer }}</p>
+              </div>
+            </transition>
+          </div>
+        </div>
+      </div>
+    </section>
 
 
+
+    <NewsletterSection />
     <FooterSection />
     <LimitModal :isOpen="showLimitModal" @close="showLimitModal = false" />
   </div>
@@ -100,6 +216,7 @@
 import { ref } from 'vue'
 import NavigationBar from '../components/NavigationBar.vue'
 import FooterSection from '../components/FooterSection.vue'
+import NewsletterSection from '../components/NewsletterSection.vue'
 import CardComponent from '../components/CardComponent.vue'
 import Sidebar from '@/components/Sidebar.vue'
 
@@ -109,6 +226,23 @@ const isLoading = ref(false)
 const successMessage = ref('')
 const errorMessage = ref('')
 const progressText = ref('')
+const faqs = ref([
+  { question: 'What image formats are supported?', answer: 'We support all major image formats including JPG, PNG, GIF, BMP, and WEBP. All formats can be mixed and converted into a single PDF.', isOpen: false },
+  { question: 'Is there a limit to the number of images?', answer: 'You can upload multiple images at once. Very large batches may be restricted based on your account usage limits.', isOpen: false },
+  { question: 'Will my images be private?', answer: 'Absolutely. The conversion process happens 100% in your browser. Your images are never sent to our servers.', isOpen: false },
+  { question: 'Can I reorder the images?', answer: 'Images are converted in the order they were uploaded. You can remove individual images and re-upload if you need a specific sequence.', isOpen: false }
+])
+
+const toolFeatures = [
+  { title: 'Local Processing', description: 'Your photos stay private. Conversion happens on your device, not on a server.' },
+  { title: 'High Resolution', description: 'We preserve the original quality and DPI of your images in the final PDF file.' },
+  { title: 'Multiple Formats', description: 'Convert JPG, PNG, and more seamlessly into a professional PDF document.' },
+  { title: 'Fast Generation', description: 'Experience instant PDF creation without any upload wait times or server delays.' }
+]
+
+function toggleFaq(index) {
+  faqs.value[index].isOpen = !faqs.value[index].isOpen
+}
 
 function handleDrop(event) {
   event.preventDefault()
@@ -169,13 +303,13 @@ async function convertToPdf() {
 
   try {
     progressText.value = 'Processing in browser...'
-    
+
     // Using frontend logic for 100% free processing
     const pdfData = await pdfService.imagesToPdf(selectedFiles.value)
 
     progressText.value = 'Saving...'
     pdfService.download(pdfData, `images-to-pdf-${Date.now()}.pdf`)
-    
+
     // Log usage
     await usageService.logUsage('images-to-pdf', pdfData.byteLength)
 
@@ -208,4 +342,3 @@ function clearMessages() {
   errorMessage.value = ''
 }
 </script>
-

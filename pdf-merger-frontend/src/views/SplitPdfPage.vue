@@ -5,10 +5,10 @@
     <section class="relative min-h-screen pt-32 pb-24 px-4">
       <div class="container mx-auto max-w-7xl">
         <div class="text-center mb-12">
-          <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
             Split PDF File
           </h1>
-          <p class="text-lg text-gray-600 dark:text-gray-400">
+          <p class="text-base text-gray-600 dark:text-gray-400">
             Split a PDF file into multiple documents by page ranges.
           </p>
         </div>
@@ -87,6 +87,116 @@
       </div>
     </section>
 
+    <!-- How It Works Section -->
+    <section class="py-16 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
+      <div class="container mx-auto px-4 max-w-5xl">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3">How to Split PDFs</h2>
+          <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">Extract pages in three simple steps</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center group">
+            <div
+              class="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+              <span class="text-xl font-bold">1</span>
+            </div>
+            <h3 class="text-base font-bold text-gray-900 dark:text-white mb-2">Upload File</h3>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Choose the PDF file you want to split from your computer
+              or
+              mobile device.</p>
+          </div>
+          <div class="text-center group">
+            <div
+              class="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+              <span class="text-xl font-bold">2</span>
+            </div>
+            <h3 class="text-base font-bold text-gray-900 dark:text-white mb-2">Set Page Ranges</h3>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Enter the page numbers or ranges (e.g., 1-5) you wish to
+              extract as a new PDF.</p>
+          </div>
+          <div class="text-center group">
+            <div
+              class="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+              <span class="text-xl font-bold">3</span>
+            </div>
+            <h3 class="text-base font-bold text-gray-900 dark:text-white mb-2">Extract & Save</h3>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Click "Split PDF" to process locally and download your
+              new
+              document instantly.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool Features -->
+    <section class="py-16 bg-gray-50 dark:bg-slate-900">
+      <div class="container mx-auto px-4 max-w-5xl">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">Powerful PDF Splitting</h2>
+            <div class="space-y-4">
+              <div v-for="(feature, index) in toolFeatures" :key="index" class="flex gap-4">
+                <div
+                  class="flex-shrink-0 w-8 h-8 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center">
+                  <i class="fas fa-check text-xs"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-gray-900 dark:text-white mb-1">{{ feature.title }}</h4>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">{{ feature.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="relative">
+            <div class="aspect-video rounded-2xl overflow-hidden shadow-2xl">
+              <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=800"
+                alt="Split PDFs Securely" class="w-full h-full object-cover">
+            </div>
+            <div
+              class="absolute -bottom-4 -right-4 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 hidden sm:block">
+              <div class="flex items-center gap-2 mb-1">
+                <i class="fas fa-bolt text-orange-500 text-xs"></i>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Zero Latency</span>
+              </div>
+              <div class="text-xs font-bold text-gray-900 dark:text-white">Instant Browser Processing</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-white dark:bg-gray-900">
+      <div class="container mx-auto px-4 max-w-3xl">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3">Frequently Asked Questions</h2>
+          <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">Everything you need to know about splitting
+            PDFs</p>
+        </div>
+        <div class="space-y-4">
+          <div v-for="(faq, index) in faqs" :key="index"
+            class="border border-gray-100 dark:border-gray-800 rounded-xl overflow-hidden hover:border-orange-200 dark:hover:border-orange-900 transition-colors">
+            <button @click="toggleFaq(index)"
+              class="w-full px-6 py-4 flex items-center justify-between text-left group">
+              <span
+                class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">{{
+                  faq.question }}</span>
+              <i class="fas fa-chevron-down text-xs text-gray-400 transition-transform"
+                :class="{ 'rotate-180': faq.isOpen }"></i>
+            </button>
+            <transition enter-active-class="transition-all duration-300" enter-from-class="max-h-0 opacity-0"
+              enter-to-class="max-h-60 opacity-100" leave-active-class="transition-all duration-200"
+              leave-from-class="max-h-60 opacity-100" leave-to-class="max-h-0 opacity-0">
+              <div v-if="faq.isOpen" class="px-6 pb-4">
+                <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{{ faq.answer }}</p>
+              </div>
+            </transition>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <NewsletterSection />
     <FooterSection />
     <LimitModal :isOpen="showLimitModal" @close="showLimitModal = false" />
   </div>
@@ -96,6 +206,7 @@
 import { ref } from 'vue'
 import NavigationBar from '../components/NavigationBar.vue'
 import FooterSection from '../components/FooterSection.vue'
+import NewsletterSection from '../components/NewsletterSection.vue'
 import CardComponent from '../components/CardComponent.vue'
 import Sidebar from '@/components/Sidebar.vue'
 
@@ -106,6 +217,23 @@ const isLoading = ref(false)
 const successMessage = ref('')
 const errorMessage = ref('')
 const progressText = ref('')
+const faqs = ref([
+  { question: 'Is it safe to split my PDF files here?', answer: 'Yes, 100%. Our splitting tool works entirely in your browser using JavaScript. Your files are never uploaded to our servers, keeping your sensitive data private and secure.', isOpen: false },
+  { question: 'What is the page range format?', answer: 'You can use commas to separate different parts and hyphens for ranges. For example, "1-3, 5, 8-10" will extract pages 1, 2, 3, 5, 8, 9, and 10.', isOpen: false },
+  { question: 'Will my split PDF have the same quality?', answer: 'Yes. The quality of the split document will be identical to the original file. We extract the pages without any re-compression.', isOpen: false },
+  { question: 'Can I split password-protected PDFs?', answer: 'Currently, you need to remove the password from your PDF before you can split it on our platform.', isOpen: false }
+])
+
+const toolFeatures = [
+  { title: 'Secure Extraction', description: 'Your documents never leave your device. Processing happens locally for maximum security.' },
+  { title: 'Flexible Ranges', description: 'Extract single pages, specific ranges, or multiple non-consecutive parts at once.' },
+  { title: 'Zero Latency', description: 'No waiting for uploads or downloads. The tool works at the speed of your processor.' },
+  { title: 'No Installation', description: 'Works directly in your web browser across all platforms and devices.' }
+]
+
+function toggleFaq(index) {
+  faqs.value[index].isOpen = !faqs.value[index].isOpen
+}
 
 function handleDrop(event) {
   event.preventDefault()
@@ -161,13 +289,13 @@ async function splitPdf() {
 
   try {
     progressText.value = 'Splitting in browser...'
-    
+
     // Using frontend logic for 100% free processing
     const splitPdfData = await pdfService.splitPdf(selectedFile.value, pageRange.value)
 
     progressText.value = 'Saving...'
     pdfService.download(splitPdfData, `split-document-${Date.now()}.pdf`)
-    
+
     // Log usage
     await usageService.logUsage('split', splitPdfData.byteLength)
 
@@ -200,4 +328,3 @@ function clearMessages() {
   errorMessage.value = ''
 }
 </script>
-

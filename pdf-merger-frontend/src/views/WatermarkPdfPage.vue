@@ -5,10 +5,10 @@
     <section class="relative min-h-screen pt-32 pb-24 px-4">
       <div class="container mx-auto max-w-7xl">
         <div class="text-center mb-12">
-          <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
             Watermark PDF
           </h1>
-          <p class="text-lg text-gray-600 dark:text-gray-400">
+          <p class="text-base text-gray-600 dark:text-gray-400">
             Add watermark to your PDF documents.
           </p>
         </div>
@@ -109,7 +109,118 @@
       </div>
     </section>
 
+    <!-- How It Works Section -->
+    <section class="py-16 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
+      <div class="container mx-auto px-4 max-w-5xl">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3">How to Watermark PDFs</h2>
+          <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">Protect your documents in three simple steps
+          </p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center group">
+            <div
+              class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+              <span class="text-xl font-bold">1</span>
+            </div>
+            <h3 class="text-base font-bold text-gray-900 dark:text-white mb-2">Upload Document</h3>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Select the PDF file you want to protect. Your file
+              remains
+              private and is processed locally.</p>
+          </div>
+          <div class="text-center group">
+            <div
+              class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+              <span class="text-xl font-bold">2</span>
+            </div>
+            <h3 class="text-base font-bold text-gray-900 dark:text-white mb-2">Customize Stamp</h3>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Enter your text, choose the position (Center, Corners),
+              and
+              set the transparency.</p>
+          </div>
+          <div class="text-center group">
+            <div
+              class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+              <span class="text-xl font-bold">3</span>
+            </div>
+            <h3 class="text-base font-bold text-gray-900 dark:text-white mb-2">Apply & Save</h3>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Click "Add Watermark" to generate your protected PDF
+              instantly in your browser.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <!-- Tool Features -->
+    <section class="py-16 bg-gray-50 dark:bg-slate-900">
+      <div class="container mx-auto px-4 max-w-5xl">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">Professional PDF Branding</h2>
+            <div class="space-y-4">
+              <div v-for="(feature, index) in toolFeatures" :key="index" class="flex gap-4">
+                <div
+                  class="flex-shrink-0 w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                  <i class="fas fa-check text-xs"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-gray-900 dark:text-white mb-1">{{ feature.title }}</h4>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">{{ feature.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="relative">
+            <div class="aspect-video rounded-2xl overflow-hidden shadow-2xl">
+              <img src="https://images.unsplash.com/photo-1544077960-604201fe74bc?auto=format&fit=crop&q=80&w=800"
+                alt="Watermark PDF Securely" class="w-full h-full object-cover">
+            </div>
+            <div
+              class="absolute -bottom-4 -right-4 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 hidden sm:block">
+              <div class="flex items-center gap-2 mb-1">
+                <i class="fas fa-copyright text-indigo-500 text-xs"></i>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Copy Protection</span>
+              </div>
+              <div class="text-xs font-bold text-gray-900 dark:text-white">Custom Professional Stamping</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-white dark:bg-gray-900">
+      <div class="container mx-auto px-4 max-w-3xl">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3">Frequently Asked Questions</h2>
+          <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">Learn more about watermarking your documents
+          </p>
+        </div>
+        <div class="space-y-4">
+          <div v-for="(faq, index) in faqs" :key="index"
+            class="border border-gray-100 dark:border-gray-800 rounded-xl overflow-hidden hover:border-indigo-200 dark:hover:border-indigo-900 transition-colors">
+            <button @click="toggleFaq(index)"
+              class="w-full px-6 py-4 flex items-center justify-between text-left group">
+              <span
+                class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{{
+                  faq.question }}</span>
+              <i class="fas fa-chevron-down text-xs text-gray-400 transition-transform"
+                :class="{ 'rotate-180': faq.isOpen }"></i>
+            </button>
+            <transition enter-active-class="transition-all duration-300" enter-from-class="max-h-0 opacity-0"
+              enter-to-class="max-h-60 opacity-100" leave-active-class="transition-all duration-200"
+              leave-from-class="max-h-60 opacity-100" leave-to-class="max-h-0 opacity-0">
+              <div v-if="faq.isOpen" class="px-6 pb-4">
+                <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{{ faq.answer }}</p>
+              </div>
+            </transition>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <NewsletterSection />
     <FooterSection />
     <LimitModal :isOpen="showLimitModal" @close="showLimitModal = false" />
   </div>
@@ -119,6 +230,7 @@
 import { ref } from 'vue'
 import NavigationBar from '../components/NavigationBar.vue'
 import FooterSection from '../components/FooterSection.vue'
+import NewsletterSection from '../components/NewsletterSection.vue'
 import CardComponent from '../components/CardComponent.vue'
 import Sidebar from '@/components/Sidebar.vue'
 
@@ -131,6 +243,23 @@ const isLoading = ref(false)
 const successMessage = ref('')
 const errorMessage = ref('')
 const progressText = ref('')
+const faqs = ref([
+  { question: 'Is it safe to watermark my PDFs online?', answer: 'Yes. Our watermarking tool is unique because it works entirely in your browser. Your document is never sent to our servers, ensuring your sensitive business data stays private.', isOpen: false },
+  { question: 'Can the watermark be removed?', answer: 'Our tool applies the watermark as a permanent layer in the PDF. While no method is 100% irreversible, it provides a strong deterrent against unauthorized copying or use.', isOpen: false },
+  { question: 'Does it support images as watermarks?', answer: 'Currently, we support text-based watermarks. You can customize the text, position, and opacity to suit your needs.', isOpen: false },
+  { question: 'Will it work on large PDFs?', answer: 'Yes. The tool efficiently stamps every page of your document, regardless of size, all within your browser environment.', isOpen: false }
+])
+
+const toolFeatures = [
+  { title: 'Privacy Focused', description: 'Stamping happens locally on your device. We never have access to your documents.' },
+  { title: 'Full Customization', description: 'Control exactly how your watermark looks with opacity and positioning settings.' },
+  { title: 'Batch Protection', description: 'Instantly applies your brand or protection text to every single page in the PDF.' },
+  { title: 'Instant Download', description: 'Fast processing with no upload or download wait times from a remote server.' }
+]
+
+function toggleFaq(index) {
+  faqs.value[index].isOpen = !faqs.value[index].isOpen
+}
 
 function handleDrop(event) {
   event.preventDefault()
@@ -188,18 +317,18 @@ async function addWatermark() {
 
   try {
     progressText.value = 'Processing in browser...'
-    
+
     // Using frontend logic for 100% free processing
     const watermarkedData = await pdfService.drawWatermark(
-      selectedFile.value, 
-      watermarkText.value, 
-      position.value, 
+      selectedFile.value,
+      watermarkText.value,
+      position.value,
       opacity.value
     )
 
     progressText.value = 'Saving...'
     pdfService.download(watermarkedData, `watermarked-document-${Date.now()}.pdf`)
-    
+
     // Log usage
     await usageService.logUsage('watermark', watermarkedData.byteLength)
 
@@ -232,4 +361,3 @@ function clearMessages() {
   errorMessage.value = ''
 }
 </script>
-

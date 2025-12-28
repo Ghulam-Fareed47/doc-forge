@@ -15,39 +15,36 @@
 
         <div class="relative z-10 text-center  mx-auto">
 
-          <h1 class="text-4xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-            Merge PDFs
-            <span class="relative">
-              <span
-                class="bg-gradient-to-r from-primary-600 to-indigo-600 bg-clip-text text-transparent">Effortlessly</span>
+          <h1
+            class="text-3xl md:text-3xl lg:text-4xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight tracking-tight">
+            The Ultimate PDF Workspace
+            <span class="relative inline-block min-w-[120px] md:min-w-[150px]">
+              <span ref="typedTarget"
+                class="bg-gradient-to-r from-primary-600 to-indigo-600 bg-clip-text text-transparent"></span>
               <div
-                class="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-indigo-500 rounded-full">
+                class="absolute -bottom-1.5 left-0 right-0 h-1 md:h-1.5 bg-gradient-to-r from-primary-500 to-indigo-500 rounded-full">
               </div>
             </span>
           </h1>
 
-          <p class="text-xl md:text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
-            Combine multiple PDF files into a single document with our lightning-fast, secure, and completely free
-            online
-            tool.
+          <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+            Simple. Secure. PDF Processing. Merge, split, compress, and convert your documents with our professional
+            suite of free tools.
           </p>
 
           <!-- Call to Action -->
-          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+          <div class="flex flex-row gap-3 justify-center items-center mb-16 px-4">
             <button @click="scrollToTools"
-              class="group inline-flex items-center justify-center whitespace-nowrap rounded-xl px-5 py-3 text-base font-semibold text-white bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden">
-              <span class="relative z-10 flex items-center gap-1">
+              class="group flex-1 sm:flex-none inline-flex items-center justify-center whitespace-nowrap rounded-xl px-4 py-3 text-sm md:text-base font-semibold text-white bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden">
+              <span class="relative z-10 flex items-center gap-1.5">
                 <i class="fas fa-bolt"></i>
                 Start Free
               </span>
-              <div
-                class="absolute inset-0 bg-gradient-to-r from-primary-700 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              </div>
             </button>
 
             <button @click="scrollToFeatures"
-              class="group inline-flex items-center justify-center whitespace-nowrap rounded-xl px-5 py-3 text-base font-semibold text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500 shadow hover:shadow-lg transition-all duration-300 relative overflow-hidden">
-              <span class="relative z-10 flex items-center gap-1">
+              class="group flex-1 sm:flex-none inline-flex items-center justify-center whitespace-nowrap rounded-xl px-4 py-3 text-sm md:text-base font-semibold text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500 shadow hover:shadow-lg transition-all duration-300 relative overflow-hidden">
+              <span class="relative z-10 flex items-center gap-1.5">
                 <i class="fas fa-play-circle"></i>
                 How It Works
               </span>
@@ -56,16 +53,23 @@
 
           <!-- Stats Banner -->
           <div
-            class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl py-3 shadow-lg border border-gray-200 dark:border-gray-700 max-w-5xl mx-auto">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div v-for="stat in stats" :key="stat.label" class="text-center">
-                <div class="text-2xl md:text-2xl font-bold text-gray-900 dark:text-white">{{ stat.value }}</div>
-                <div class="text-xs text-gray-600 dark:text-gray-400">{{ stat.label }}</div>
+            class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-3xl py-6 px-4 shadow-xl border border-white/20 dark:border-gray-700 max-w-5xl mx-auto reveal">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <div v-for="stat in stats" :key="stat.label" class="text-center group">
+                <div class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white mb-1">
+                  <NumberCounter :value="stat.value" />
+                </div>
+                <div
+                  class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider group-hover:text-primary-500 transition-colors">
+                  {{ stat.label }}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <InfiniteLogoSlider />
 
 
 
@@ -78,8 +82,8 @@
         class="py-24 bg-gray-50 dark:bg-slate-900 overflow-hidden transition-colors duration-300">
         <div class="container mx-auto px-4">
           <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Popular Tools</h2>
-            <p class="text-xl text-gray-600 dark:text-slate-400 max-w-3xl mx-auto">
+            <h2 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2">Popular Tools</h2>
+            <p class="text-sm md:text-base text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
               Everything you need to manage your PDF files
             </p>
           </div>
@@ -133,12 +137,75 @@
         </div>
       </section>
 
+      <!-- Why Us Section -->
+      <section class="py-24 bg-white dark:bg-gray-900 overflow-hidden reveal">
+        <div class="container mx-auto px-4">
+          <div class="flex flex-col lg:flex-row items-center gap-16 max-w-7xl mx-auto">
+            <div class="lg:w-1/2 reveal-left">
+              <div
+                class="inline-block px-4 py-1.5 mb-6 rounded-full bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-sm font-bold uppercase tracking-widest">
+                Professional Grade
+              </div>
+              <h2 class="text-xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+                Built for <span
+                  class="bg-gradient-to-r from-primary-600 to-indigo-600 bg-clip-text text-transparent">Companies</span>
+                who value Efficiency.
+              </h2>
+              <div class="space-y-6">
+                <div v-for="(pro, index) in proFeatures" :key="index" class="flex gap-4 group">
+                  <div
+                    class="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-primary-500/20 group-hover:scale-110 transition-transform">
+                    <i :class="pro.icon + ' text-sm'"></i>
+                  </div>
+                  <div>
+                    <h3
+                      class="text-base font-bold text-gray-900 dark:text-white mb-1 underline decoration-indigo-500/30 decoration-4 underline-offset-4 group-hover:decoration-indigo-500">
+                      {{ pro.title }}</h3>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">{{ pro.description }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="lg:w-1/2 relative reveal-right">
+              <div
+                class="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white dark:border-gray-800 transform rotate-2 hover:rotate-0 transition-all duration-500">
+                <img src="https://images.unsplash.com/photo-1586769852836-bc069f19e1b6?auto=format&fit=crop&q=80&w=800"
+                  alt="PDF Analytics" class="w-full h-full object-cover" />
+              </div>
+              <div class="absolute -top-10 -right-10 w-40 h-40 bg-indigo-500/20 rounded-full blur-3xl animate-pulse">
+              </div>
+              <div
+                class="absolute -bottom-10 -left-10 w-40 h-40 bg-primary-500/20 rounded-full blur-3xl animate-pulse delay-700">
+              </div>
+
+              <!-- Floating Card -->
+              <div
+                class="absolute -bottom-6 right-6 z-20 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/20 max-w-[240px] hidden md:block animate-bounce-slow">
+                <div class="flex items-center gap-3 mb-3">
+                  <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white">
+                    <i class="fas fa-check"></i>
+                  </div>
+                  <div class="text-sm font-bold text-gray-900 dark:text-white">Processing Complete</div>
+                </div>
+                <div class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div class="w-full h-full bg-green-500 animate-progress"></div>
+                </div>
+                <div class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div class="w-full h-full bg-green-500 animate-progress"></div>
+                </div>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">12 files merged in 0.8s</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Features Section -->
       <section ref="featuresSection" id="features" class="bg-white dark:bg-gray-900 py-20">
         <div class="container mx-auto px-4">
           <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Why Choose PDF Merger?</h2>
-            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+            <h2 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-3">Why Choose Our PDF Tools?</h2>
+            <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               We're redefining how you work with PDF documents
             </p>
           </div>
@@ -160,11 +227,11 @@
       </section>
 
       <!-- Blog Section -->
-      <section class="bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 py-20">
+      <section class="bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 py-20 overflow-hidden">
         <div class="container mx-auto px-4">
           <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Latest Insights</h2>
-            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+            <h2 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-3">Latest Insights</h2>
+            <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               Tips, guides, and news about PDF management
             </p>
           </div>
@@ -175,10 +242,10 @@
               <!-- Blog Card 1 -->
               <div
                 class="absolute inset-0 w-full max-w-lg mx-auto transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
-                :class="activeBlog === 0 ? 'translate-x-0 scale-100 z-50' : 'translate-x-40 scale-[0.675] z-30'">
-                <label class="absolute inset-0 cursor-pointer" @click="setActiveBlog(0)">
+                :class="activeBlog === 0 ? 'translate-x-0 scale-100 z-40' : 'translate-x-40 scale-[0.675] z-10'">
+                <div class="absolute inset-0 cursor-pointer z-50" @click="$router.push('/blog')">
                   <span class="sr-only">Read Blog Post</span>
-                </label>
+                </div>
                 <article class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl h-full">
                   <header class="mb-6">
                     <div class="inline-flex items-center gap-2 mb-4">
@@ -219,10 +286,11 @@
               <!-- Blog Card 2 -->
               <div
                 class="absolute inset-0 w-full max-w-lg mx-auto transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
-                :class="activeBlog === 1 ? 'translate-x-0 scale-100 z-50' : activeBlog === 0 ? '-translate-x-20 scale-[0.8375] z-40' : 'translate-x-40 scale-[0.675] z-30'">
-                <label class="absolute inset-0 cursor-pointer" @click="setActiveBlog(1)">
+                :class="activeBlog === 1 ? 'translate-x-0 scale-100 z-40' : activeBlog === 0 ? '-translate-x-20 scale-[0.8375] z-20' : 'translate-x-40 scale-[0.675] z-10'">
+                <div class="absolute inset-0 cursor-pointer z-50"
+                  @click="activeBlog === 1 ? $router.push('/blog') : setActiveBlog(1)">
                   <span class="sr-only">Read Blog Post</span>
-                </label>
+                </div>
                 <article class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl h-full">
                   <header class="mb-6">
                     <div class="inline-flex items-center gap-2 mb-4">
@@ -252,7 +320,7 @@
                         <div class="text-sm text-gray-500 dark:text-gray-400">Security Lead</div>
                       </div>
                     </div>
-                    <button
+                    <button @click="$router.push('/blog')"
                       class="inline-flex justify-center whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors">
                       Read more →
                     </button>
@@ -263,11 +331,13 @@
               <!-- Blog Card 3 -->
               <div
                 class="absolute inset-0 w-full max-w-lg mx-auto transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
-                :class="activeBlog === 2 ? 'translate-x-0 scale-100 z-50' : activeBlog === 1 ? '-translate-x-20 scale-[0.8375] z-40' : 'translate-x-40 scale-[0.675] z-30 opacity-70'">
-                <label class="absolute inset-0 cursor-pointer" @click="setActiveBlog(2)">
+                :class="activeBlog === 2 ? 'translate-x-0 scale-100 z-40' : activeBlog === 1 ? '-translate-x-20 scale-[0.8375] z-20' : 'translate-x-40 scale-[0.675] z-10 opacity-70'">
+                <div class="absolute inset-0 cursor-pointer z-50"
+                  @click="activeBlog === 2 ? $router.push('/blog') : setActiveBlog(2)">
                   <span class="sr-only">Read Blog Post</span>
-                </label>
-                <article class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl h-full">
+                </div>
+                <article
+                  class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl h-full border border-gray-100 dark:border-gray-700">
                   <header class="mb-6">
                     <div class="inline-flex items-center gap-2 mb-4">
                       <span
@@ -295,7 +365,7 @@
                         <div class="text-sm text-gray-500 dark:text-gray-400">Product Manager</div>
                       </div>
                     </div>
-                    <button
+                    <button @click="$router.push('/blog')"
                       class="inline-flex justify-center whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors">
                       Read more →
                     </button>
@@ -317,42 +387,7 @@
 
       <!-- CTA Section -->
 
-      <div class="container max-w-5xl mx-auto px-4 py-12">
-        <div
-          class="relative w-full rounded-[1.5rem] overflow-hidden bg-gradient-to-br from-primary-900 via-primary-800 to-indigo-900 text-white   isolate">
-
-
-          <!-- CTA Section - Simplified -->
-          <div class="container max-w-5xl mx-auto z-10">
-            <div
-              class="relative w-full rounded-2xl overflow-hidden bg-gradient-to-br from-primary-600 to-indigo-600 dark:from-primary-900 dark:to-indigo-900 text-white px-8 py-12 md:px-16 md:py-14 shadow-2xl">
-
-              <div class="relative z-10">
-                <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-6 leading-[1.1]">
-                  Level Up Your PDF Game
-                </h2>
-                <p class="text-white/90 dark:text-primary-100 mb-8 max-w-xl text-sm">
-                  Get exclusive tips, updates on new features, and PDF productivity hacks delivered to your inbox.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 w-full max-w-lg">
-                  <input type="email" placeholder="Enter your email"
-                    class="w-full bg-white/10 border-2 border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all duration-300 backdrop-blur-sm focus:scale-[1.02] text-base" />
-                  <button
-                    class="group relative overflow-hidden bg-white text-primary-800 px-5 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 hover:shadow-xl whitespace-nowrap text-lg">
-                    <span class="relative z-10">Get Updates</span>
-                    <div
-                      class="absolute inset-0 rounded-[inherit] bg-[linear-gradient(45deg,transparent_25%,theme(colors.white/.4)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%,100%_100%] bg-[position:200%_0,0_0] bg-no-repeat group-hover:bg-[position:-100%_0,0_0] group-hover:duration-[1500ms]">
-                    </div>
-                  </button>
-                </div>
-                <p class="text-white/80 dark:text-primary-200/80 text-sm mt-4">
-                  No spam. Unsubscribe anytime. Join 10,000+ professionals already subscribed.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <NewsletterSection />
 
       <FooterSection />
     </div>
@@ -361,12 +396,24 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import Typed from 'typed.js'
 import NavigationBar from '../components/NavigationBar.vue'
 import FooterSection from '../components/FooterSection.vue'
+import NewsletterSection from '../components/NewsletterSection.vue'
 import CardComponent from '../components/CardComponent.vue'
+import NumberCounter from '../components/NumberCounter.vue'
+import InfiniteLogoSlider from '../components/InfiniteLogoSlider.vue'
+
 const activeBlog = ref(1)
 const featuresSection = ref(null)
 const toolsSection = ref(null)
+const typedTarget = ref(null)
+
+const proFeatures = [
+  { icon: 'fas fa-shield-halved', title: 'Data Privacy First', description: 'Your documents never leave your browser context with our client-side processing core.' },
+  { icon: 'fas fa-layer-group', title: 'Bulk Mode', description: 'Process hundreds of files simultaneously with our multi-threaded JavaScript engine.' },
+  { icon: 'fas fa-rocket', title: 'Zero Latency', description: 'Experience the speed of edge processing. No server uploads, no waiting lines.' }
+]
 
 const features = [
   { icon: 'fas fa-bolt', title: 'Lightning Fast', description: 'Merge your PDFs in seconds with our optimized processing engine. No waiting, no delays.' },
@@ -465,12 +512,41 @@ function setActiveBlog(index) {
 }
 
 onMounted(() => {
+  // Initialize Typed.js
+  if (typedTarget.value) {
+    new Typed(typedTarget.value, {
+      strings: ['Effortlessly', 'Securely', 'In Seconds', 'Like a Pro'],
+      typeSpeed: 60,
+      backSpeed: 40,
+      backDelay: 2000,
+      loop: true
+    })
+  }
+
+  // Scroll Reveal Logic
+  const observerOptions = {
+    threshold: 0.1
+  }
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed')
+        revealObserver.unobserve(entry.target)
+      }
+    })
+  }, observerOptions)
+
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+    revealObserver.observe(el)
+  })
+
   // Initialize blog slider
   setActiveBlog(1)
 })
 
 const stats = [
-  { value: '10M+', label: 'PDFs Merged' },
+  { value: '10M+', label: 'Files Processed' },
   { value: '500K+', label: 'Happy Users' },
   { value: '99.9%', label: 'Success Rate' },
   { value: '24/7', label: 'Uptime' }
@@ -506,5 +582,67 @@ const stats = [
 
 .dark ::-webkit-scrollbar-thumb:hover {
   background: #718096;
+}
+
+/* Scroll Reveal Animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.reveal.revealed,
+.reveal-left.revealed,
+.reveal-right.revealed {
+  opacity: 1;
+  transform: translate(0);
+}
+
+@keyframes progress {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+.animate-progress {
+  animation: progress 1.5s ease-out forwards;
+}
+
+.animate-bounce-slow {
+  animation: bounce 3s infinite;
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Typed.js cursor styling */
+.typed-cursor {
+  color: #6366f1;
+  font-size: 1.2em;
 }
 </style>

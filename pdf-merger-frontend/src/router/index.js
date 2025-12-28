@@ -32,6 +32,21 @@ const router = createRouter({
       component: MergePdfPage
     },
     {
+      path: '/privacy',
+      name: 'PrivacyPolicy',
+      component: () => import('../views/PrivacyPolicyPage.vue')
+    },
+    {
+      path: '/terms',
+      name: 'TermsOfService',
+      component: () => import('../views/TermsOfServicePage.vue')
+    },
+    {
+      path: '/faq',
+      name: 'FAQ',
+      component: () => import('../views/FaqPage.vue')
+    },
+    {
       path: '/about',
       name: 'about',
       component: AboutPage

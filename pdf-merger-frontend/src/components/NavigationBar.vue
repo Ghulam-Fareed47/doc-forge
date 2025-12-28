@@ -1,13 +1,12 @@
 <template>
   <header
-    class="fixed inset-x-0 top-0 z-50 mx-auto w-full max-w-screen-md border border-gray-100 bg-white/80 py-3 shadow backdrop-blur-lg md:top-6 md:rounded-3xl lg:max-w-screen-lg dark:bg-gray-900/80 dark:border-gray-800 transition-all duration-300">
+    class="fixed inset-x-0 top-0 z-[100] mx-auto w-full max-w-screen-md border border-gray-100 bg-white/80 py-3 shadow backdrop-blur-lg md:top-6 md:rounded-3xl lg:max-w-screen-lg dark:bg-gray-900/80 dark:border-gray-800 transition-all duration-300">
     <div class="px-4">
       <div class="flex items-center justify-between">
         <!-- Logo -->
         <div class="flex shrink-0">
           <router-link to="/" class="flex items-center" aria-current="page">
-            <img class="h-7 w-auto" src="/logo1.png" alt="PDF Merger Logo">
-            <p class="sr-only">PDF Merger</p>
+            <img class="h-8 w-auto" src="/logo1.png" alt="DocForge Logo">
           </router-link>
         </div>
 
@@ -27,9 +26,8 @@
           <button @click="themeStore.toggleTheme()"
             class="inline-flex items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-gray-700 dark:hover:bg-gray-700"
             :title="themeStore.isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
-            <i v-if="themeStore.isDark" class="fas fa-sun mr-2 text-yellow-500"></i>
-            <i v-else class="fas fa-moon mr-2 text-indigo-500"></i>
-            {{ themeStore.isDark ? 'Light' : 'Dark' }}
+            <i v-if="themeStore.isDark" class="fas fa-sun text-yellow-500"></i>
+            <i v-else class="fas fa-moon text-indigo-500"></i>
           </button>
 
           <!-- Auth Buttons -->
@@ -101,6 +99,36 @@
       <!-- Mobile Menu -->
       <div v-if="mobileMenuOpen" class="md:hidden mt-4 pt-4 border-t border-gray-200 dark:border-gray-800">
         <div class="flex flex-col gap-2">
+          <!-- Auth Buttons for Mobile -->
+          <template v-if="!authStore.isLoggedIn">
+            <div class="grid grid-cols-2 gap-3 px-4 py-2">
+              <router-link to="/login" @click="mobileMenuOpen = false"
+                class="flex items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 px-4 py-3 text-sm font-semibold text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
+                Log in
+              </router-link>
+              <router-link to="/register" @click="mobileMenuOpen = false"
+                class="flex items-center justify-center rounded-xl bg-primary-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 transition-all">
+                Sign up
+              </router-link>
+            </div>
+          </template>
+
+          <!-- User Profile for Mobile -->
+          <template v-else>
+            <div class="px-4 py-4 mb-2 border-b border-gray-100 dark:border-gray-800">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                  {{ userInitials }}
+                </div>
+                <div>
+                  <p class="text-base font-bold text-gray-900 dark:text-white">{{ authStore.user?.name }}</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">{{ authStore.user?.email }}</p>
+                </div>
+              </div>
+            </div>
+          </template>
+
           <router-link v-for="link in navLinks" :key="link.path" :to="link.path" @click="mobileMenuOpen = false"
             class="inline-flex items-center rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-white"
             :class="isActive(link.path) ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white' : 'text-gray-700 dark:text-gray-300'">
