@@ -13,14 +13,14 @@
                     <p class="text-base text-gray-600 dark:text-gray-400">
                         Combine multiple PDF files into a single document.
                     </p>
-
-                    <!-- Mobile Sidebar Toggle -->
-                    <button @click="isSidebarOpen = true"
-                        class="md:hidden mt-6 inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full text-gray-700 dark:text-gray-200 font-medium shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                        <i class="fas fa-th-list text-primary-600"></i>
-                        <span>Browse All Tools</span>
-                    </button>
                 </div>
+
+                <!-- Mobile Sidebar Toggle -->
+                <button @click="isSidebarOpen = true"
+                    class="md:hidden mt-6 inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full text-gray-700 dark:text-gray-200 font-medium shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                    <i class="fas fa-th-list text-primary-600"></i>
+                    <span>Browse All Tools</span>
+                </button>
 
                 <div class="flex flex-col md:flex-row gap-8 items-stretch justify-center">
                     <Sidebar :isOpen="isSidebarOpen" @close="isSidebarOpen = false" class="md:w-72 flex-shrink-0" />
@@ -249,7 +249,7 @@
                             class="w-full px-6 py-4 flex items-center justify-between text-left group">
                             <span
                                 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{{
-                                faq.question }}</span>
+                                    faq.question }}</span>
                             <i class="fas fa-chevron-down text-xs text-gray-400 transition-transform"
                                 :class="{ 'rotate-180': faq.isOpen }"></i>
                         </button>
@@ -281,8 +281,8 @@ import CardComponent from '../components/CardComponent.vue'
 import Sidebar from '@/components/Sidebar.vue'
 
 const selectedFiles = ref([])
-const isLoading = ref(false)
 const isSidebarOpen = ref(false)
+const isLoading = ref(false)
 const successMessage = ref('')
 const errorMessage = ref('')
 const progressText = ref('')

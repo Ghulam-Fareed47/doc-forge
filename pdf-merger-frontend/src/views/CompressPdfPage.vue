@@ -213,6 +213,7 @@ import Sidebar from '@/components/Sidebar.vue'
 
 const selectedFile = ref(null)
 const quality = ref(75)
+const isSidebarOpen = ref(false)
 const isLoading = ref(false)
 const successMessage = ref('')
 const errorMessage = ref('')
