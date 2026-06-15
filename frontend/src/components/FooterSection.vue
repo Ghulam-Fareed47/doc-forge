@@ -53,10 +53,13 @@ const navLinks = [
 
 // REAL BRAND COLORS FOR ICONS
 const socialLinks = [
-  { name: 'Facebook', url: 'https://facebook.com', icon: 'fab fa-facebook', color: '#1877F2' },
-  { name: 'Twitter', url: 'https://twitter.com', icon: 'fab fa-twitter', color: '#1DA1F2' },
-  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/ghulam-fareed-35859a377?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', icon: 'fab fa-linkedin', color: '#0A66C2' },
-  { name: 'Instagram', url: 'https://instagram.com', icon: 'fab fa-instagram', color: '#E1306C' },
+  {
+    name: 'Portfolio',
+    url: 'https://ghulam-fareed-portfolio.vercel.app',
+    icon: 'fas fa-laptop-code',
+    color: '#F59E0B'
+  },
+  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/ghulam-fareed47', icon: 'fab fa-linkedin', color: '#0A66C2' },
   { name: 'GitHub', url: 'https://github.com/Ghulam-Fareed47', icon: 'fab fa-github', color: '#FFFFFF' }
 ]
 </script>

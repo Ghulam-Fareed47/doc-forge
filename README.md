@@ -3,7 +3,7 @@
 A powerful, 100% free, and secure web application for managing PDF documents.
 This application runs entirely in your browser—your files never leave your device for processing, ensuring maximum privacy and speed.
 
-## 🚀 Features
+##  Features
 
 ### Core PDF Tools
 *   **Merge PDF**: Combine multiple PDF documents into a single file. Drag and drop to reorder.
@@ -20,7 +20,7 @@ This application runs entirely in your browser—your files never leave your dev
 *   **Guest Access**: Try tools for free (limited to 2 uses per day).
 *   **Unlimited Access**: **Sign Up** for a free account to unlock unlimited usage.
 
-## 🛠️ Installation & Setup
+##  Installation & Setup
 
 ### Prerequisites
 *   Node.js (for the frontend)
@@ -36,7 +36,7 @@ This application runs entirely in your browser—your files never leave your dev
 
 2.  **Setup Backend (API)**
     ```bash
-    cd pdf-merger-backend
+    cd backend
     composer install
     cp .env.example .env  # Configure your database settings here
     php artisan key:generate
@@ -46,7 +46,7 @@ This application runs entirely in your browser—your files never leave your dev
 
 3.  **Setup Frontend (UI)**
     ```bash
-    cd pdf-merger-frontend
+    cd frontend
     npm install
     npm run dev
     ```
@@ -54,7 +54,7 @@ This application runs entirely in your browser—your files never leave your dev
 4.  **Access the App**
     Open your browser and visit: `http://localhost:5173`
 
-## 📖 Usage Guide
+##  Usage Guide
 
 ### Authentication
 *   **Guests**: You can use any tool immediately but are limited to **2 operations**.
@@ -65,8 +65,5 @@ This application runs entirely in your browser—your files never leave your dev
 *   The application tracks tool usage stats (tool name, file size, timestamp) in the backend database (`usages` table).
 *   *Note: The visual Admin Dashboard is currently pending installation.*
 
-## 🏗️ For Developers
-For detailed architecture, directory structure, and code patterns, please refer to the [Developer Guide](DEVELOPER_GUIDE.md).
-
 ---
-*Built with Vue 3, Laravel 12, and pdf-lib.*
+*Built with Vue 3 and Laravel 12*
